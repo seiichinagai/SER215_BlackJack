@@ -1,3 +1,5 @@
+import javax.swing.JOptionPane;
+
 /*
  * SER215 Final Project - Blackjack Game
  * Group 10 Members:
@@ -59,11 +61,7 @@ public class Card {
         cardValue = 11;
         break;
       default:
-        try {
-          throw new Exception("Invalid Card Rank");
-        } catch (Exception e) {
-          System.err.println("Invalid Attempt to create Card");
-        }
+        JOptionPane.showInternalMessageDialog(null, "Warning","Invalid Card Attempt", JOptionPane.ERROR_MESSAGE);
         break;
     }
   }

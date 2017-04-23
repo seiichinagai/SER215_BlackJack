@@ -19,6 +19,25 @@ public class Hand {
   boolean hasAce;
   
   /*
+   * Default constructor
+   */
+  Hand() {
+    handValue = 0;
+    hasAce = false;
+  }
+  
+  /*
+   * One param constructor
+   * @param card c
+   */
+  Hand(Card c) {
+    handValue = 0;
+    hasAce = false;
+    addCard(c); // since this is the first card, ignore the boolean return we can't bust here
+  }
+  
+  
+  /*
    * addCard
    * @returns 
    *    false if problem/over 21 after ace adjustment
@@ -30,6 +49,11 @@ public class Hand {
     cardsInHand.add(c);
     // calculate hand value
     calculateHandValue();
+    
+    // flag if we have an ace
+    if (c.getRank().equals("A")) {
+      hasAce = true;
+    }
     
     // can we still play this hand?
     if (handValue > 21) {
@@ -98,5 +122,13 @@ public class Hand {
    */
   public int getNumCards() {
     return cardsInHand.size();
+  }
+  
+  /*
+   * getHand Value
+   * @returns int handValue
+   */
+  public int getHandValue() {
+    return handValue;
   }
 }
