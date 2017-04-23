@@ -11,8 +11,8 @@
  */
 public class Card {
   private String cardRank;
-  private int cardValue;
   private Suit cardSuit;
+  private int cardValue;
   
   /*
    * Constructor
@@ -69,11 +69,11 @@ public class Card {
   }
   
   /*
-   * getValue()
-   * @returns int cardValue
+   * getRank()
+   * @returns String cardRank
    */
-  public int getValue() {
-    return cardValue;
+  public String getRank() {
+    return cardRank;
   }
   
   /*
@@ -85,10 +85,10 @@ public class Card {
   }
   
   /*
-   * getRank()
-   * @returns String cardRank
+   * getValue()
+   * @returns int cardValue
    */
-  public String getRank() {
-    return cardRank;
+  public int getValue() {
+    return cardValue;
   }
 }

@@ -15,23 +15,28 @@ import java.util.LinkedList;
  */
 public class Hand {
   private LinkedList<Card> cardsInHand = new LinkedList<Card>();
-  boolean hasAce;
   int handValue;
+  boolean hasAce;
   
   /*
-   * get number of cards
-   * @returns int size of cardsInHand
+   * addCard
+   * @returns 
+   *    false if problem/over 21 after ace adjustment
+   *    true if hand still playable
+   * @params card c
    */
-  public int getNumCards() {
-    return cardsInHand.size();
-  }
-  
-  /*
-   * do we have an ace?
-   * @returns boolean hasAce
-   */
-  public boolean getHasAce() {
-    return hasAce;
+  public boolean addCard(Card c) {
+    // add card
+    cardsInHand.add(c);
+    // calculate hand value
+    calculateHandValue();
+    
+    // can we still play this hand?
+    if (handValue > 21) {
+      return false;
+    } else {
+      return true;
+    }
   }
   
   /*
@@ -80,23 +85,18 @@ public class Hand {
   }
   
   /*
-   * addCard
-   * @returns 
-   *    false if problem/over 21 after ace adjustment
-   *    true if hand still playable
-   * @params card c
+   * do we have an ace?
+   * @returns boolean hasAce
    */
-  public boolean addCard(Card c) {
-    // add card
-    cardsInHand.add(c);
-    // calculate hand value
-    calculateHandValue();
-    
-    // can we still play this hand?
-    if (handValue > 21) {
-      return false;
-    } else {
-      return true;
-    }
+  public boolean getHasAce() {
+    return hasAce;
+  }
+  
+  /*
+   * get number of cards
+   * @returns int size of cardsInHand
+   */
+  public int getNumCards() {
+    return cardsInHand.size();
   }
 }
