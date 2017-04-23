@@ -109,6 +109,14 @@ public class Hand {
   }
   
   /*
+   * getHand Value
+   * @returns int handValue
+   */
+  public int getHandValue() {
+    return handValue;
+  }
+  
+  /*
    * do we have an ace?
    * @returns boolean hasAce
    */
@@ -122,13 +130,5 @@ public class Hand {
    */
   public int getNumCards() {
     return cardsInHand.size();
-  }
-  
-  /*
-   * getHand Value
-   * @returns int handValue
-   */
-  public int getHandValue() {
-    return handValue;
   }
 }
