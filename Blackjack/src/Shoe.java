@@ -19,12 +19,12 @@ import javax.swing.JOptionPane;
 public class Shoe {
 
 	private int numDecks;
-	private LinkedList<Card> shoeCards;
+	private LinkedList<Card> shoeCards = new LinkedList<Card>();
 	private int shuffleMark;
-	private LinkedList<Card> deck;
+	private LinkedList<Card> deck = new LinkedList<Card>();
 	
 	public Shoe(){
-		this.deck = createDeck();
+		createDeck();
 	}
 	
 	/**
@@ -78,8 +78,8 @@ public class Shoe {
 	 * Instantiates a full deck, unshuffled.
 	 * @return a full deck.
 	 */
-	private LinkedList<Card> createDeck(){
-		LinkedList<Card> deck = new LinkedList<Card>();
+	private void createDeck(){
+		//LinkedList<Card> deck = new LinkedList<Card>();
 		
 		for(Suit s : Suit.values()){
 			deck.add(new Card(s, "2"));
@@ -96,6 +96,6 @@ public class Shoe {
 			deck.add(new Card(s, "K"));
 			deck.add(new Card(s, "A"));
 		}
-		return deck;
+		//return deck;
 	}
 }

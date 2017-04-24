@@ -15,7 +15,7 @@
 
 public class Dealer {
 
-	private Hand dealerHand;
+	private Hand dealerHand = new Hand();
 	private Card faceCard;
 
 	public Dealer(){
@@ -27,7 +27,7 @@ public class Dealer {
 	 * Returns false otherwise.
 	 * @return true if the dealer has a BlackJack.
 	 */
-	private boolean dealerBlackJack(){
+	public boolean dealerBlackJack(){
 		if (dealerHand.getHandValue() == 21)
 			return true;
 		else
@@ -40,7 +40,7 @@ public class Dealer {
 	 * contains an ace and is valued at 17. Returns false otherwise.
 	 * @return true if dealer should hit, false otherwise.
 	 */
-	private boolean dealerHits(){
+	public boolean dealerHits(){
 		if (dealerHand.getHandValue() <= 16){
 			return true;
 		}
@@ -48,6 +48,10 @@ public class Dealer {
 			return true;
 		else
 			return false;
+	}
+	
+	public Hand getDealerHand(){
+		return this.dealerHand;
 	}
 	
 	

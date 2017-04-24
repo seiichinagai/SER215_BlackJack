@@ -48,6 +48,9 @@ public class Card {
       case "9":
         cardValue = 9;
         break;
+      case "10":
+          cardValue = 10;
+          break;
       case "J":
         cardValue = 10;
         break;
