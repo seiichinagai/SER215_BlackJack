@@ -80,9 +80,8 @@ public class Shoe {
 	 */
 	private LinkedList<Card> createDeck(){
 		LinkedList<Card> deck = new LinkedList<Card>();
-		Suit[] suits = {Suit.Club, Suit.Diamond, Suit.Heart, Suit.Spade};
 		
-		for(Suit s : suits){
+		for(Suit s : Suit.values()){
 			deck.add(new Card(s, "2"));
 			deck.add(new Card(s, "3"));
 			deck.add(new Card(s, "4"));

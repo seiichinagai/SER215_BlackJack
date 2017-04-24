@@ -14,9 +14,13 @@
  */
 
 public class Dealer {
-	
+
 	private Hand dealerHand;
 	private Card faceCard;
+
+	public Dealer(){
+		
+	}
 	
 	/**
 	 * Returns true if the dealer has a BlackJack.
