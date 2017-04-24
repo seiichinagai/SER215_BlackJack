@@ -4,6 +4,8 @@ import java.util.LinkedList;
 
 import javax.swing.JOptionPane;
 
+
+
 /*
  * SER215 Final Project - Blackjack Game
  * Group 10 Members:
@@ -39,7 +41,7 @@ public class Shoe {
 			shuffleCards();
 		
 		Card toReturn = shoeCards.getFirst();
-		shoeCards = new LinkedList<Card>(shoeCards.subList(1, shoeCards.size()));
+		shoeCards = new LinkedList<Card>(shoeCards.subList(1, shoeCards.size()-1));
 		return toReturn;
 	}
 
@@ -80,7 +82,6 @@ public class Shoe {
 	 * @return a full deck.
 	 */
 	private void createDeck(){
-		//LinkedList<Card> deck = new LinkedList<Card>();
 		
 		for(Suit s : Suit.values()){
 			deck.add(new Card(s, "2"));
@@ -97,6 +98,5 @@ public class Shoe {
 			deck.add(new Card(s, "K"));
 			deck.add(new Card(s, "A"));
 		}
-		//return deck;
 	}
 }

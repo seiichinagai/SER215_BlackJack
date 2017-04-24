@@ -132,4 +132,12 @@ public class Hand {
   public int getNumCards() {
     return cardsInHand.size();
   }
+  
+  /*
+   * get cards in hand
+   * @return LinkedList<Card> cards in hand
+   */
+  public LinkedList<Card> getCards(){
+	  return this.cardsInHand;
+  }
 }
