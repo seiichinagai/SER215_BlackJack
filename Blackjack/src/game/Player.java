@@ -1,8 +1,9 @@
+package game;
 
 public class Player {
 	private double bank;
 	private String name;
-	private Hand hand;
+	private Hand hand = new Hand();
 	
 	public Player() {
 	}
@@ -11,8 +12,8 @@ public class Player {
 		return name;
 	}
 	
-	public static void setName(String name) {
-		name = name;
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	public void setPlayerHand(Hand hand){
