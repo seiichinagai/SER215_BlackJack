@@ -1,19 +1,23 @@
 package game;
 
 public class Player {
-	private double bank;
-	private String name;
-	private Hand hand = new Hand();
+	private static double bank;
+	private static String name;
+	private static int numberWins;
+	private static int numberLosses;
+	private static int totalGames;
+	private static Hand hand = new Hand();
 	
 	public Player() {
+		this.totalGames = numberWins + numberLosses;
 	}
 	
-	public String getName() {
+	public static String getName() {
 		return name;
 	}
 	
-	public void setName(String name) {
-		this.name = name;
+	public static void setName(String name) {
+		Player.name = name;
 	}
 	
 	public void setPlayerHand(Hand hand){
@@ -30,17 +34,26 @@ public class Player {
 	}
 	
 	public void setBank(double bank) {
-		this.bank = bank;
+		Player.bank = bank;
 	}
 	
+	public static int getWins(){
+		return numberWins;
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public static void setWins(int numberWins){
+		numberWins = numberWins;
+	}
+
+	public static int getLosses() {
+		return numberLosses;
+	}
+
+	public static void setLosses(int numberLosses) {
+		numberLosses = numberLosses;
+	}
+
+	public static int getTotalGames() {
+		return totalGames;
+	}
 }

@@ -1,6 +1,7 @@
 package gui;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,6 +17,7 @@ public class ErrorScreen extends JFrame{
 		setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		
 		createNewGameButton();
+		createLabel();
 		run();
 	}
 	
@@ -28,8 +30,9 @@ public class ErrorScreen extends JFrame{
 	
 	class NewGameListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			//JFrame gameFrame = new GameFrame();
-			frame.setVisible(false);
+			JFrame introScreen = new IntroScreen();
+			Player.setBank(0);
+			frame.dispose();
 			System.out.println("New game button clicked");
 	    }            
 	}
@@ -40,8 +43,9 @@ public class ErrorScreen extends JFrame{
 	
 	public void run(){
 		JPanel panel = new JPanel();
-		//panel.add(errorLabel);
-		panel.add(newGameButton);
+		panel.setLayout(new BorderLayout());
+		panel.add(errorLabel, BorderLayout.CENTER);
+		panel.add(newGameButton, BorderLayout.SOUTH);
 		
 		frame = new JFrame("Error");
         frame.setSize(400, 100);
