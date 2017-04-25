@@ -20,7 +20,7 @@ public class ProfileScreen {
 	private JLabel nameLabel;
 	private JTextField bankField;
 	private JLabel bankLabel;
-	//private JLabel statsLabel;
+	private JTextArea playerStats;
 	private JButton saveButton;
 	private static Player p = null;
 
@@ -47,6 +47,7 @@ public class ProfileScreen {
 		createNameField();
 		createBankField();
 		createSaveButton();
+		createStatsArea();
 		initialize();
 	}
 
@@ -65,6 +66,15 @@ public class ProfileScreen {
 		final int FIELD_WIDTH = 10;
 		bankField = new JTextField(FIELD_WIDTH);
 		bankField.setEditable(true);
+	}
+	
+	public void createStatsArea(){
+		playerStats = new JTextArea("Player: " + Player.getName() + 
+				"\nWins: " + Player.getWins() + 
+				"\nLosses: " + Player.getLosses() +
+				"\nTotal Games: " + Player.getTotalGames() +
+				"\nTotal Bank: " + Player.getBank());
+		playerStats.setEditable(false);
 	}
 
 	public void createSaveButton() {
@@ -87,6 +97,7 @@ public class ProfileScreen {
 	public void updateInfo(){
 
 		p = new Player();
+		Player.setName(this.nameField.getText());
 		//Ensure valid name and bank amount.
 		try{
 			if (this.nameField.getText().equals("")){
@@ -118,9 +129,10 @@ public class ProfileScreen {
 		panel.add(nameField);
 		panel.add(bankLabel);
 		panel.add(bankField);
+	   	panel.add(playerStats);
 		panel.add(saveButton);
 
-		frame = new JFrame();
+		frame = new JFrame("Player Profile);
 		frame.setBounds(100, 100, 450, 300);
 		frame.add(panel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
