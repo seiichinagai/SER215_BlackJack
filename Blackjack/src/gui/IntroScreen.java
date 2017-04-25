@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class IntroScreen {
+	
+	static boolean profileSelected = false;
 
 	private JFrame frmBlackjackintroscreen;
 
@@ -46,16 +48,16 @@ public class IntroScreen {
 		frmBlackjackintroscreen.setBounds(100, 100, 450, 300);
 		frmBlackjackintroscreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmBlackjackintroscreen.getContentPane().setLayout(null);
-		
+
 		JLabel lblWelcome = new JLabel("Welcome to");
 		lblWelcome.setBounds(10, 11, 101, 27);
 		frmBlackjackintroscreen.getContentPane().add(lblWelcome);
-		
+
 		JLabel lblBlackjack = new JLabel("BlackJack!");
 		lblBlackjack.setFont(new Font("Tahoma", Font.BOLD, 30));
 		lblBlackjack.setBounds(131, 22, 182, 75);
 		frmBlackjackintroscreen.getContentPane().add(lblBlackjack);
-		
+
 		/**
 		 * profileButton provides an ActionListener so that when
 		 * it is pressed, ProfileScreen is called and the player
@@ -70,7 +72,7 @@ public class IntroScreen {
 		profileButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		profileButton.setBounds(36, 105, 340, 58);
 		frmBlackjackintroscreen.getContentPane().add(profileButton);
-		
+
 		/**
 		 * startButton provides an ActionListener so that when
 		 * it is pressed, GameFrame is called, and the current
@@ -81,9 +83,10 @@ public class IntroScreen {
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Add something to the effect of:
-				// if profile != null, then play.
-				GameFrame.main(null);
-				frmBlackjackintroscreen.dispose();
+				if (profileSelected){
+					GameFrame.main(null);
+					frmBlackjackintroscreen.dispose();
+				}
 			}
 		});
 		startButton.setFont(new Font("Tahoma", Font.PLAIN, 18));

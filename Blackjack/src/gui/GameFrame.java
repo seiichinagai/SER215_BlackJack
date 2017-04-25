@@ -10,8 +10,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import org.omg.CORBA.portable.InvokeHandler;
-
 import game.Card;
 import game.Dealer;
 import game.Player;
@@ -59,9 +57,13 @@ public class GameFrame {
 	 */
 	private void initialize() {
 
-		//Testing values for player:
-		p.setBank(1000);
-		p.setName("Kvothe the Bloodless");
+		//Load player profile
+		if (ProfileScreen.getPlayer() != null)
+			p = ProfileScreen.getPlayer();
+		else { //Something went wrong
+			p.setBank(1000);
+			p.setName("Kvothe the Bloodless");
+		}
 
 		//Basic Frame
 		frame = new JFrame();

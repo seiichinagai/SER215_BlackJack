@@ -17,7 +17,7 @@ package game;
 public class Dealer {
 
 	private Hand dealerHand = new Hand();
-	private Card faceCard;
+	//private Card faceCard;
 
 	public Dealer(){
 		
