@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import game.Player;
@@ -47,7 +48,7 @@ public class ProfileScreen {
 		createNameField();
 		createBankField();
 		createSaveButton();
-		createStatsArea();
+		//createStatsArea();
 		initialize();
 	}
 
@@ -68,14 +69,14 @@ public class ProfileScreen {
 		bankField.setEditable(true);
 	}
 	
-	public void createStatsArea(){
-		playerStats = new JTextArea("Player: " + Player.getName() + 
-				"\nWins: " + Player.getWins() + 
-				"\nLosses: " + Player.getLosses() +
-				"\nTotal Games: " + Player.getTotalGames() +
-				"\nTotal Bank: " + Player.getBank());
-		playerStats.setEditable(false);
-	}
+//	public void createStatsArea(){
+//		playerStats = new JTextArea("Player: " + p.getName() + 
+//				"\nWins: " + p.getWins() + 
+//				"\nLosses: " + p.getLosses() +
+//				"\nTotal Games: " + p.getTotalGames() +
+//				"\nTotal Bank: " + p.getBank());
+//		playerStats.setEditable(false);
+//	}
 
 	public void createSaveButton() {
 		saveButton = new JButton("Save");
@@ -97,8 +98,11 @@ public class ProfileScreen {
 	public void updateInfo(){
 
 		p = new Player();
-		Player.setName(this.nameField.getText());
+
 		//Ensure valid name and bank amount.
+		//If either field is invalid, the Player p
+		// is set to null to be handled appropriately
+		// in the GameFrame class.
 		try{
 			if (this.nameField.getText().equals("")){
 				throw new InputMismatchException();
@@ -113,8 +117,10 @@ public class ProfileScreen {
 			IntroScreen.profileSelected = true;
 		} catch (NumberFormatException bankError){
 			bankField.setText("Invalid Number");
+			p = null;
 		} catch (InputMismatchException nameError){
 			nameField.setText("Must enter a name");
+			p = null;
 		}
 		System.out.println("Save button clicked");	}
 
@@ -129,10 +135,10 @@ public class ProfileScreen {
 		panel.add(nameField);
 		panel.add(bankLabel);
 		panel.add(bankField);
-	   	panel.add(playerStats);
+	   	//panel.add(playerStats);
 		panel.add(saveButton);
 
-		frame = new JFrame("Player Profile);
+		frame = new JFrame("Player Profile");
 		frame.setBounds(100, 100, 450, 300);
 		frame.add(panel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

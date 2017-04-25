@@ -21,13 +21,12 @@ public class GameFrame {
 	private JTextField betField;
 	private JTextField numDecksTextField;
 	public final ImageIcon cardBack = new ImageIcon(this.getClass().getResource("/resources/cardBack_blue5.png"));
+	Player p = new Player();
 	Dealer d = new Dealer();
 	Shoe s = new Shoe();
 	Boolean shoeSet = false, betSet = false;
 	int dCount = 1, pCount = 0;
 	int bet = -1;
-
-	Player p = new Player();
 
 	/**
 	 * Launch the application.
@@ -104,11 +103,6 @@ public class GameFrame {
 		lblDealerHand.setBounds(10, 11, 121, 14);
 		frame.getContentPane().add(lblDealerHand);
 
-		JLabel dCard1 = new JLabel("");
-		dCard1.setBounds(20, 32, 140, 186);
-		frame.getContentPane().add(dCard1);
-		dCard1.setVisible(true);
-
 		JLabel lblNumberOfDecks = new JLabel("Number of Decks:");
 		lblNumberOfDecks.setBounds(10, 531, 121, 14);
 		frame.getContentPane().add(lblNumberOfDecks);
@@ -128,60 +122,67 @@ public class GameFrame {
 		pTotalLbl.setVisible(false);
 		frame.getContentPane().add(pTotalLbl);
 
+		JLabel dCard1 = new JLabel("");
+		dCard1.setBounds(20, 32, 140, 186);
+		frame.getContentPane().add(dCard1);
+		dCard1.setVisible(true);
+
 		JLabel dCard2 = new JLabel("");
-		dCard2.setBounds(80, 32, 129, 186);
+		dCard2.setBounds(85, 32, 140, 186);
 		frame.getContentPane().add(dCard2);
 
 		JLabel dCard3 = new JLabel("");
-		dCard3.setBounds(145, 32, 129, 186);
+		dCard3.setBounds(150, 32, 140, 186);
 		frame.getContentPane().add(dCard3);
 
 		JLabel dCard4 = new JLabel("");
-		dCard4.setBounds(210, 32, 129, 186);
+		dCard4.setBounds(215, 32, 140, 186);
 		frame.getContentPane().add(dCard4);
 
 		JLabel dCard5 = new JLabel("");
-		dCard5.setBounds(275, 32, 129, 186);
+		dCard5.setBounds(280, 32, 140, 186);
 		frame.getContentPane().add(dCard5);
 
 		JLabel dCard6 = new JLabel("");
-		dCard6.setBounds(340, 32, 129, 186);
+		dCard6.setBounds(345, 32, 140, 186);
 		frame.getContentPane().add(dCard6);
 
 		JLabel dCard7 = new JLabel("");
-		dCard7.setBounds(405, 32, 129, 186);
+		dCard7.setBounds(410, 32, 140, 186);
 		frame.getContentPane().add(dCard7);
 
+		//dCards is an array that holds the JLabels to represent dealer cards.
 		JLabel[] dCards = {dCard1, dCard2, dCard3, dCard4, dCard5, dCard6, dCard7};
 
 		JLabel pCard1 = new JLabel("");
-		pCard1.setBounds(145, 284, 129, 186);
+		pCard1.setBounds(85, 309, 140, 186);
 		frame.getContentPane().add(pCard1);
 
 		JLabel pCard2 = new JLabel("");
-		pCard1.setBounds(210, 284, 129, 186);
+		pCard1.setBounds(188, 309, 140, 186);
 		frame.getContentPane().add(pCard2);
 
 		JLabel pCard3 = new JLabel("");
-		pCard1.setBounds(275, 284, 129, 186);
+		pCard1.setBounds(253, 309, 140, 186);
 		frame.getContentPane().add(pCard3);
 
 		JLabel pCard4 = new JLabel("");
-		pCard1.setBounds(340, 284, 129, 186);
+		pCard1.setBounds(318, 309, 140, 186);
 		frame.getContentPane().add(pCard4);
 
 		JLabel pCard5 = new JLabel("");
-		pCard1.setBounds(405, 284, 129, 186);
+		pCard1.setBounds(383, 309, 140, 186);
 		frame.getContentPane().add(pCard5);
 
 		JLabel pCard6 = new JLabel("");
-		pCard1.setBounds(470, 284, 129, 186);
+		pCard1.setBounds(448, 309, 140, 186);
 		frame.getContentPane().add(pCard6);
 
 		JLabel pCard7 = new JLabel("");
-		pCard1.setBounds(535, 284, 129, 186);
+		pCard1.setBounds(513, 309, 140, 186);
 		frame.getContentPane().add(pCard7);
 
+		//pCards is an array that holds the JLabels to represent player cards.
 		JLabel[] pCards = {pCard1, pCard2, pCard3, pCard4, pCard5, pCard6, pCard7};
 
 		JButton betButton = new JButton("Confirm Bet");
@@ -219,9 +220,6 @@ public class GameFrame {
 				p.setBank(p.getBank()-bet);
 				bankLabel.setText(""+p.getBank());
 
-				frame.revalidate();
-				frame.repaint();
-
 				return true;
 			}
 		});
@@ -254,14 +252,11 @@ public class GameFrame {
 					numDecksButton.setVisible(false);
 					numDecksTextField.setVisible(false);
 				}
-
-				frame.revalidate();
-				frame.repaint();
 			}
 		});
 		numDecksButton.setBounds(219, 527, 129, 23);
 		frame.getContentPane().add(numDecksButton);
-		
+
 		JButton hitButton = new JButton("Hit");
 		hitButton.setVisible(false);
 
@@ -279,19 +274,19 @@ public class GameFrame {
 				hitButton.setVisible(false);
 				standButton.setVisible(false);
 
-				//Dealer finished hand
+				//Dealer finishes hand (if not already done)
 				while(d.dealerHits()){
 					Card c2 = s.dealCard();
 					d.getDealerHand().addCard(c2);
 					String dPath = "/resources/card"+c2.getSuit()+"s"+c2.getRank()+".png";
-					dCards[dCount].setIcon(new ImageIcon(dPath));
+					dCards[dCount].setIcon(new ImageIcon(getClass().getResource(dPath)));
 					dCount++;
 				}
 
 				//Show Dealer facedown card
 				Card fd = d.getDealerHand().getCards().getFirst();
 				String dPath = "/resources/card"+fd.getSuit()+"s"+fd.getRank()+".png";
-				dCards[0].setIcon(new ImageIcon(dPath));
+				dCards[0].setIcon(new ImageIcon(getClass().getResource(dPath)));
 
 				//Update Dealer Total
 				int dTotal = d.getDealerHand().getHandValue();
@@ -352,7 +347,7 @@ public class GameFrame {
 				Card c1 = s.dealCard();
 				p.getPlayerHand().addCard(c1);
 				String pPath = "/resources/card"+c1.getSuit()+"s"+c1.getRank()+".png";
-				pCards[pCount].setIcon(new ImageIcon(pPath));
+				pCards[pCount].setIcon(new ImageIcon(getClass().getResource(pPath)));
 				pCount++;
 
 				//Add card to dealerHand and update graphic (maybe)
@@ -360,16 +355,13 @@ public class GameFrame {
 					Card c2 = s.dealCard();
 					d.getDealerHand().addCard(c2);
 					String dPath = "/resources/card"+c2.getSuit()+"s"+c2.getRank()+".png";
-					dCards[dCount].setIcon(new ImageIcon(dPath));
+					dCards[dCount].setIcon(new ImageIcon(getClass().getResource(dPath)));
 					dCount++;
 				}
-				
+
 				//If either bust, continue to standButton's ActionListener.
 				if ((p.getPlayerHand().getHandValue() > 21) || (d.getDealerHand().getHandValue() > 21))
-				standButton.getActionListeners()[0].actionPerformed(null);
-
-				frame.revalidate();
-				frame.repaint();
+					standButton.getActionListeners()[0].actionPerformed(null);
 			}
 		});
 		hitButton.setBounds(657, 225, 89, 23);
@@ -390,36 +382,29 @@ public class GameFrame {
 				dCount++;
 				Card c = d.getDealerHand().getCards().getLast();
 				String path = "/resources/card"+c.getSuit()+"s"+c.getRank()+".png";
-				dCards[dCount].setIcon(new ImageIcon(path));
+				dCards[dCount].setIcon(new ImageIcon(getClass().getResource(path)));
 				dCards[dCount].setVisible(true);
 				dCount++;
 
 				//Deal starting hand to player
-				p.getPlayerHand().addCard(s.dealCard());
-				Card c1 = p.getPlayerHand().getCards().getLast();
+				Card c1 = s.dealCard();
+				p.getPlayerHand().addCard(c1);
 				String c1Path = "/resources/card"+c1.getSuit()+"s"+c1.getRank()+".png";
-				pCards[dCount].setIcon(new ImageIcon(c1Path));
-				pCards[dCount].setVisible(true);
+				pCards[pCount].setIcon(new ImageIcon(getClass().getResource(c1Path)));
 				pCount++;
 
-				p.getPlayerHand().addCard(s.dealCard());
-				Card c2 = p.getPlayerHand().getCards().getLast();
-				String c2Path = "/resources/card"+c.getSuit()+"s"+c.getRank()+".png";
-				pCards[dCount].setIcon(new ImageIcon(c2Path));
-				pCards[dCount].setVisible(true);
+				Card c2 = s.dealCard();
+				p.getPlayerHand().addCard(c2);
+				String c2Path = "/resources/card"+c2.getSuit()+"s"+c2.getRank()+".png";
+				pCards[pCount].setIcon(new ImageIcon(getClass().getResource(c2Path)));
 				pCount++;
 
 				dealButton.setVisible(false);
 				standButton.setVisible(true);
 				hitButton.setVisible(true);
-
-				frame.revalidate();
-				frame.repaint();
 			}
 		});
 		dealButton.setBounds(685, 527, 89, 23);
 		frame.getContentPane().add(dealButton);
-
-
 	}
 }
