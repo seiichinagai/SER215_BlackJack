@@ -20,10 +20,10 @@ import org.eclipse.swt.widgets.Group;
 public class table {
 
   protected Shell shlGroupBlackjack;
-  private Text txtBet;
-  private Text txtPlayerHand;
-  private Text txtDealerHand;
-  private Text txtBank;
+  private static Text txtBet;
+  private static Text txtPlayerHand;
+  private static Text txtDealerHand;
+  private static Text txtBank;
   
 
   
@@ -47,6 +47,11 @@ public class table {
      * game logic
      */
     // minor change blackjack pays $8 to avoid < whole dollars
+    while (player1.getBank() > 0) {
+      txtBank.setText("$" + Long.toString(player1.getBank()));
+      txtBet.setText("$" + Long.toString(0));
+      
+    }
     
     
     

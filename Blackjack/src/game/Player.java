@@ -8,6 +8,7 @@ public class Player {
   private int totalGames;
   private Hand hand = new Hand();
   private final int STARTING_BANK = 500;
+  private long bet;
 
   public Player() {
     this.totalGames = numberWins + numberLosses;
@@ -24,6 +25,7 @@ public class Player {
     numberLosses = 0;
     totalGames = 0;
     bank = STARTING_BANK; // bank is stored in cents
+    bet = 0;
   }
   
   /*
@@ -123,5 +125,17 @@ public class Player {
    */
   public void addPush() {
     totalGames++;
+  }
+  
+  /*
+   * set bet amount
+   */
+  public boolean setBet(long a) {
+    if (a > bank ) {
+      return false; // can't set bet
+    } else {
+      bet = a;
+      return true;
+    }
   }
 }
