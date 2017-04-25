@@ -91,7 +91,6 @@ public class ProfileScreen {
 			if (IntroScreen.profileSelected){
 				frame.setVisible(false);
 			}
-			//frame.dispose();
 		}            
 	}
 
@@ -143,6 +142,7 @@ public class ProfileScreen {
 		frame.add(panel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
+		frame.setTitle("BlackJack Profile Screen");
 		
 		
 	}

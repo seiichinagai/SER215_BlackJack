@@ -1,3 +1,5 @@
+package gui;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,10 +14,12 @@ public class ResultScreen extends JFrame{
 	private JButton newGameButton;
 	private JButton quitButton;
 	private JFrame frame;
+	private int result = 0;
 	
-	public ResultScreen(){
+	public ResultScreen(int result){
 		setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		
+		this.result = result;
 		createResultArea();
 		createPlayAgainButton();
 		createNewGameButton();
@@ -25,11 +29,32 @@ public class ResultScreen extends JFrame{
 	
 	//gets win/loss information from player class
 	public void createResultArea(){
-		resultArea = new JTextArea("Player: " + Player.getName() + 
-				"\nWins: " + Player.getWins() + 
-				"\nLosses: " + Player.getLosses() +
-				"\nTotal Games: " + Player.getTotalGames() +
-				"\nTotal Bank: " + Player.getBank());
+		String gameResult = null;
+		switch(result){
+		case 1: {
+			gameResult = "Congratulations, you won! Your winnings have been added to your bank";
+			break;
+		}
+		case 2: {
+			gameResult = "Unfortunately, the dealer won. You should try again.";
+			break;
+		}
+		case 3: {
+			gameResult = "It was a tie! Your bet has been refunded.";
+			break;
+		}
+		default: {
+			gameResult = "Something went wrong determining results";
+			break;
+		}
+		}
+		resultArea = new JTextArea(gameResult +
+				"\nPlayer: " + ProfileScreen.getPlayer().getName() + 
+				"\nWins: " + ProfileScreen.getPlayer().getWins() + 
+				"\nLosses: " + ProfileScreen.getPlayer().getLosses() +
+				"\nTotal Games: " + ProfileScreen.getPlayer().getTotalGames() +
+				"\nTotal Bank: $" + ProfileScreen.getPlayer().getBank() +
+				"\nTotal Loans: $" + ProfileScreen.getPlayer().getLoan());
 		resultArea.setEditable(false);
 	}
 	
@@ -42,33 +67,27 @@ public class ResultScreen extends JFrame{
 	
 	class PlayListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			//JFrame gameFrame = new GameFrame();
 			frame.setVisible(false);
+			GameFrame.main(null);
+			frame.dispose();
 	    }            
 	}
 	
 	public void createNewGameButton(){
 		newGameButton = new JButton("New Game");
-		
 		ActionListener listener = new NewGameListener();
 	    newGameButton.addActionListener(listener);
 	}
 	
 	class NewGameListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			//JFrame gameFrame = new GameFrame();
-			Player.setName(null);
-			Player.setBank(0);
-			Player.setWins(0);
-			Player.setLosses(0);
-			
-			frame.setVisible(false);
-	    }            
+			IntroScreen is = new IntroScreen();
+			frame.dispose();
+	    }           
 	}
 	
 	public void createQuitButton(){
 		quitButton = new JButton("Quit");
-		
 		ActionListener listener = new QuitListener();
 	    quitButton.addActionListener(listener);
 	}
@@ -93,5 +112,6 @@ public class ResultScreen extends JFrame{
 		frame.add(panel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
+		frame.setTitle("BlackJack Results");
 	}
 }

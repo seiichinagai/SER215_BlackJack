@@ -7,9 +7,13 @@ public class Player {
 	private int numberLosses;
 	private int totalGames;
 	private Hand hand = new Hand();
+	private long loan;
 	
 	public Player() {
-		this.totalGames = numberWins + numberLosses;
+		this.numberWins = 0;
+		this.numberLosses = 0;
+		this.totalGames = 0;
+		this.loan = 0;
 	}
 	
 	public String getName() {
@@ -26,7 +30,6 @@ public class Player {
 	
 	public Hand getPlayerHand(){
 		return hand;
-		
 	}
 	
 	public double getBank(){
@@ -43,6 +46,7 @@ public class Player {
 	
 	public void setWins(int numberWins){
 		this.numberWins = numberWins;
+		this.totalGames = this.numberLosses + this.numberWins;
 	}
 
 	public int getLosses() {
@@ -51,9 +55,18 @@ public class Player {
 
 	public void setLosses(int numberLosses) {
 		this.numberLosses = numberLosses;
+		this.totalGames = this.numberLosses + this.numberWins;
 	}
 
 	public int getTotalGames() {
 		return this.totalGames;
+	}
+	
+	public void setLoan(long amount){
+		this.loan = amount;
+	}
+	
+	public long getLoan(){
+		return this.loan;
 	}
 }

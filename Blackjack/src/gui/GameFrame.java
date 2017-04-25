@@ -21,12 +21,12 @@ public class GameFrame {
 	private JTextField betField;
 	private JTextField numDecksTextField;
 	public final ImageIcon cardBack = new ImageIcon(this.getClass().getResource("/resources/cardBack_blue5.png"));
-	Player p = new Player();
-	Dealer d = new Dealer();
-	Shoe s = new Shoe();
-	Boolean shoeSet = false, betSet = false;
-	int dCount = 1, pCount = 0;
-	int bet = -1;
+	private Player p = new Player();
+	private Dealer d = new Dealer();
+	private Shoe s = new Shoe();
+	private Boolean shoeSet = false;
+	private int dCount = 1, pCount = 0;
+	private int bet = -1, winner = 0;
 
 	/**
 	 * Launch the application.
@@ -70,6 +70,8 @@ public class GameFrame {
 		frame.setBounds(100, 100, 800, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setResizable(false);
+		frame.setTitle("BlackJack Game");
 
 		//Labels (and text fields)
 		JLabel lblName = new JLabel("Name:");
@@ -104,7 +106,13 @@ public class GameFrame {
 
 		JLabel lblDealerHand = new JLabel("Dealer Hand:");
 		lblDealerHand.setBounds(10, 11, 121, 14);
+		lblDealerHand.setVisible(false);
 		frame.getContentPane().add(lblDealerHand);
+		
+		JLabel lblPlayerHand = new JLabel("Player Hand:");
+		lblPlayerHand.setBounds(10, 228, 121, 14);
+		lblPlayerHand.setVisible(false);
+		frame.getContentPane().add(lblPlayerHand);
 
 		JLabel lblNumberOfDecks = new JLabel("Number of Decks:");
 		lblNumberOfDecks.setBounds(10, 531, 121, 14);
@@ -114,6 +122,8 @@ public class GameFrame {
 		numDecksTextField.setBounds(123, 528, 86, 20);
 		frame.getContentPane().add(numDecksTextField);
 
+		JButton btnContinue = new JButton("Continue");
+		
 		JLabel dTotalLbl = new JLabel("");
 		dTotalLbl.setBounds(656, 192, 118, 14);
 		dTotalLbl.setVisible(false);
@@ -194,7 +204,6 @@ public class GameFrame {
 					betField.setVisible(false);
 					lblBetAmount.setText(""+bet);
 					betButton.setVisible(false);
-					betSet = true;
 				}
 				else {
 					betField.setText("Invalid Amount");
@@ -293,7 +302,7 @@ public class GameFrame {
 				int pTotal = p.getPlayerHand().getHandValue();
 				pTotalLbl.setText("Player Total: "+pTotal);
 
-				int winner = 0;
+
 				//Determine Winner
 				if (dTotal > 21){
 					//Dealer bust, player win
@@ -307,7 +316,13 @@ public class GameFrame {
 					//Neither bust, player win
 					System.out.println("You Win!!");
 					winner = 1;
-				} else {
+				} else if (pTotal == dTotal){
+					//Neither bust, tie
+					System.out.println("It's a tie!");
+					winner = 3;
+				}
+				
+				else {
 					//Neither bust, dealer win
 					System.out.println("The dealer wins");
 					winner = 2;
@@ -316,14 +331,20 @@ public class GameFrame {
 				switch (winner) {
 				case 1: { //Player won
 					p.setBank(p.getBank()+(bet*2));
+					p.setWins(p.getWins()+1);
+					break;
 				}
 				case 2: { //Dealer won
-					//Space to do something
-					//Perhaps a lose screen.
+					p.setLosses(p.getLosses()+1);
+					break;
+				}
+				case 3: { //Tie
+					p.setBank(p.getBank()+bet);
+					p.setLosses(p.getLosses()+1);
+					break;
 				}
 				}
-
-
+				btnContinue.setVisible(true);
 			}
 		});
 		standButton.setBounds(657, 269, 89, 23);
@@ -375,7 +396,7 @@ public class GameFrame {
 				d.getDealerHand().addCard(s.dealCard());
 				d.getDealerHand().addCard(s.dealCard());
 				dCard1.setIcon(cardBack);
-				dCount++;
+				
 				Card c = d.getDealerHand().getCards().getLast();
 				String path = "/resources/card"+c.getSuit()+"s"+c.getRank()+".png";
 				dCards[dCount].setIcon(new ImageIcon(getClass().getResource(path)));
@@ -398,12 +419,37 @@ public class GameFrame {
 				pTotalLbl.setText("Player Total: "+p.getPlayerHand().getHandValue());
 				pTotalLbl.setVisible(true);
 
+				//Check for dealer BlackJack
+				if (d.getDealerHand().getHandValue() == 21){
+					standButton.getActionListeners()[0].actionPerformed(null);
+				}
+				
 				dealButton.setVisible(false);
 				standButton.setVisible(true);
 				hitButton.setVisible(true);
+				lblDealerHand.setVisible(true);
+				lblPlayerHand.setVisible(true);
 			}
 		});
 		dealButton.setBounds(685, 527, 89, 23);
 		frame.getContentPane().add(dealButton);
+		
+		/**
+		 * btnContinue provides the ActionListener necessary
+		 * to move from the end of a game to the results screen,
+		 * once the player is ready.
+		 */
+		btnContinue.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				//Display results screen with winner passed through
+				ResultScreen rs = new ResultScreen(winner);
+				
+				frame.dispose();
+			}
+		});
+		btnContinue.setBounds(685, 502, 89, 23);
+		frame.getContentPane().add(btnContinue);
+		btnContinue.setVisible(false);
 	}
 }
