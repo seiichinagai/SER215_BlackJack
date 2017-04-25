@@ -50,8 +50,8 @@ public class Card {
         cardValue = 9;
         break;
       case "10":
-          cardValue = 10;
-          break;
+        cardValue = 10;
+        break;
       case "J":
         cardValue = 10;
         break;

@@ -1,59 +1,127 @@
 package game;
 
 public class Player {
-	private static double bank;
-	private static String name;
-	private static int numberWins;
-	private static int numberLosses;
-	private static int totalGames;
-	private static Hand hand = new Hand();
-	
-	public Player() {
-		this.totalGames = numberWins + numberLosses;
-	}
-	
-	public static String getName() {
-		return name;
-	}
-	
-	public static void setName(String name) {
-		Player.name = name;
-	}
-	
-	public void setPlayerHand(Hand hand){
-		this.hand = hand;
-	}
-	
-	public Hand getPlayerHand(){
-		return hand;
-		
-	}
-	
-	public double getBank(){
-		return this.bank;
-	}
-	
-	public void setBank(double bank) {
-		Player.bank = bank;
-	}
-	
-	public static int getWins(){
-		return numberWins;
-	}
-	
-	public static void setWins(int numberWins){
-		numberWins = numberWins;
-	}
+  private long bank; // bank is stored in whole dollars
+  private String name;
+  private int numberWins;
+  private int numberLosses;
+  private int totalGames;
+  private Hand hand = new Hand();
+  private final int STARTING_BANK = 500;
 
-	public static int getLosses() {
-		return numberLosses;
-	}
+  public Player() {
+    this.totalGames = numberWins + numberLosses;
+  }
+  
+  /*
+   * Constructor
+   * @params string name
+   * sw
+   */
+  public Player(String n) {
+    name = n;
+    numberWins = 0;
+    numberLosses = 0;
+    totalGames = 0;
+    bank = STARTING_BANK; // bank is stored in cents
+  }
+  
+  /*
+   * Constructor with name & bank
+   * @params string name, long bank
+   * sw
+   */
+  public Player(String n, long b) {
+    name = n;
+    numberWins = 0;
+    numberLosses = 0;
+    totalGames = 0;
+    bank = b; // bank is stored in cents
+  }
 
-	public static void setLosses(int numberLosses) {
-		numberLosses = numberLosses;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public static int getTotalGames() {
-		return totalGames;
-	}
+  public void setName(String name) {
+    name = name;
+  }
+
+  public void setPlayerHand(Hand hand) {
+    hand = hand;
+  }
+
+  public Hand getPlayerHand() {
+    return hand;
+  }
+
+  public long getBank() {
+    return bank;
+  }
+
+  public void setBank(long bank) {
+    bank = bank;
+  }
+
+  /*
+   * get wins
+   * @returns numberWins
+   * sw
+   */
+  public int getWins() {
+    return numberWins;
+  }
+
+  /*
+   * get losses
+   * @returns numberLosses
+   * sw
+   */
+  public long getLosses() {
+    return numberLosses;
+  }
+
+  /*
+   * get number of games
+   * @returns int totalGames
+   * sw
+   */
+  public int getTotalGames() {
+    return totalGames;
+  }
+  
+  /*
+   * get number of pushes
+   * @returns int pushed games
+   * sw
+   */
+  public int getPushes() {
+    return totalGames - numberWins - numberLosses;
+  }
+  
+  /*
+   * incrementer for wins
+   * sw
+   */
+  public void addWin() {
+    numberWins++;
+    totalGames++;
+  }
+  
+  /*
+   * incrementer for losses
+   * sw
+   */
+  public void addLoss() {
+    numberLosses++;
+    totalGames++;
+  }
+  
+  /*
+   * incrementer for pushes
+   * sw
+   */
+  public void addPush() {
+    totalGames++;
+  }
 }
