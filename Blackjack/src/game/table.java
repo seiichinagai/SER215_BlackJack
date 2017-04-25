@@ -16,6 +16,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 
 public class table {
 
@@ -163,6 +165,12 @@ public class table {
     grpBetControls.setLayout(new GridLayout(7, false));
     
     Button btnMinus10 = new Button(grpBetControls, SWT.NONE);
+    btnMinus10.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseDown(MouseEvent e) {
+        player1.setBet(player1.getBet() - 10);
+      }
+    });
     btnMinus10.setText("-$10");
     
     Button btnMinus5 = new Button(grpBetControls, SWT.NONE);

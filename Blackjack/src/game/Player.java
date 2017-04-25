@@ -138,4 +138,8 @@ public class Player {
       return true;
     }
   }
+  
+  public long getBet() {
+    return bet;
+  }
 }
