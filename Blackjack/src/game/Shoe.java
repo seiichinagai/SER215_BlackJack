@@ -28,6 +28,8 @@ public class Shoe {
 	
 	public Shoe(){
 		createDeck();
+		setDecks(1);
+		shuffleCards();
 	}
 	
 	/**
@@ -40,8 +42,7 @@ public class Shoe {
 		if (shoeCards.size() == shuffleMark)
 			shuffleCards();
 		
-		Card toReturn = shoeCards.getFirst();
-		shoeCards = new LinkedList<Card>(shoeCards.subList(1, shoeCards.size()-1));
+		Card toReturn = shoeCards.pop();
 		return toReturn;
 	}
 
@@ -49,9 +50,10 @@ public class Shoe {
 	 * Shuffles the playing deck seven times, per casino rules.
 	 */
 	public void shuffleCards(){
-		for(int i = 0; i < 7; i++){
-			Collections.shuffle(shoeCards);
-		}
+	  createDeck();
+	  for(int i = 0; i < 7; i++){
+	    Collections.shuffle(shoeCards);
+	  }
 	}
 
 	/*
@@ -79,7 +81,6 @@ public class Shoe {
 	
 	/**
 	 * Instantiates a full deck, unshuffled.
-	 * @return a full deck.
 	 */
 	private void createDeck(){
 		

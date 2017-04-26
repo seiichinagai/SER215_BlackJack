@@ -52,7 +52,11 @@ public class Dealer {
 	}
 	
 	public Hand getDealerHand(){
-		return this.dealerHand;
+	  return this.dealerHand;
+	}
+	
+	public void resetHand() {
+	  dealerHand = new Hand();
 	}
 	
 	

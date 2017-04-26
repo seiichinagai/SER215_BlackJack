@@ -140,4 +140,31 @@ public class Hand {
   public LinkedList<Card> getCards(){
 	  return this.cardsInHand;
   }
+  
+  /*
+   * return hand as string
+   * non-obscured
+   */
+  public String handToString() {
+    String handString = "";
+    
+    // build string
+    for (Card c : cardsInHand){
+      handString += c.getRank();
+      handString += c.getSuit().toString();
+    }
+    return handString;
+  }
+  
+  /*
+   * return dealers starting hand, obscure first cards
+   */
+  public String dHandToString() {
+    String handString = "**";
+    
+    // build string
+    handString += cardsInHand.get(1).getRank();
+    handString += cardsInHand.get(1).getSuit().toString();
+    return handString;
+  }
 }

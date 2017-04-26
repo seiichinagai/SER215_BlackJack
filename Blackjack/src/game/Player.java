@@ -41,26 +41,49 @@ public class Player {
     bank = b; // bank is stored in cents
   }
 
+  /*
+   * get name
+   * @returns string name
+   */
   public String getName() {
     return name;
   }
 
+  /*
+   * set name
+   * @params string name
+   */
   public void setName(String name) {
     name = name;
   }
 
+  /*
+   * deprecated
+   */
   public void setPlayerHand(Hand hand) {
     hand = hand;
   }
 
+  /*
+   * access player's hand
+   * @return Hand
+   */
   public Hand getPlayerHand() {
     return hand;
   }
 
+  /*
+   * get player's bank
+   * @returns long bank
+   */
   public long getBank() {
     return bank;
   }
 
+  /*
+   * set player's bankroll
+   * @params long bank
+   */
   public void setBank(long bank) {
     bank = bank;
   }
@@ -141,7 +164,18 @@ public class Player {
     }
   }
   
+  /*
+   * get player's bet
+   * @returns long bet
+   */
   public long getBet() {
     return bet;
+  }
+  
+  /*
+   * reset player's hand
+   */
+  public void resetHand() {
+    hand = new Hand();
   }
 }

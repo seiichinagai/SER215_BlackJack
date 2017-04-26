@@ -28,6 +28,7 @@ public class table {
   private static Text txtBank;
   private static Player player1 = new Player("Player 1");
   private static Dealer dealer = new Dealer();
+  private static Shoe shoe = new Shoe();
   
 
   
@@ -232,14 +233,156 @@ public class table {
         } else if (player1.getBet() > player1.getBank()) {
           lblResults.setText("Can't bet more than you have!");
         } else {
-          btnMinus1.setEnabled(false);
-          btnMinus5.setEnabled(false);
-          btnMinus10.setEnabled(false);
-          btnPlus1.setEnabled(false);
-          btnPlus5.setEnabled(false);
-          btnPlus10.setEnabled(false);
-          btnBet.setEnabled(false);
+          // here is where the game starts
+          PlayGame();
         }
+      }
+
+      /*
+       * enable/disable taking bets
+       */
+      private void Bets(boolean b) {
+        btnMinus1.setEnabled(b);
+        btnMinus5.setEnabled(b);
+        btnMinus10.setEnabled(b);
+        btnPlus1.setEnabled(b);
+        btnPlus5.setEnabled(b);
+        btnPlus10.setEnabled(b);
+        btnBet.setEnabled(b);
+      }
+
+      /*
+       * enable/disable play
+       */
+      private void Play(boolean b) {
+        btnHit.setEnabled(b);
+        btnStand.setEnabled(b);
+      }
+      
+      /*
+       * Deal cards
+       */
+      private void DealCards() {
+        dealer.getDealerHand().addCard(shoe.dealCard());
+        player1.getPlayerHand().addCard(shoe.dealCard());
+        dealer.getDealerHand().addCard(shoe.dealCard());
+        player1.getPlayerHand().addCard(shoe.dealCard());
+        
+        txtDealerHand.setText(dealer.getDealerHand().dHandToString());
+        txtPlayerHand.setText(player1.getPlayerHand().handToString());
+      }
+      
+      /*
+       * Update bank display
+       */
+      private void Bank() {
+        txtBank.setText("$" + player1.getBank());
+      }
+      
+      /*
+       * Dealer play
+       */
+      private void DealerPlay() {
+        txtDealerHand.setText(dealer.getDealerHand().handToString());
+        try {
+          Thread.sleep(2000);
+        } catch(InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
+        while (dealer.dealerHits()) {
+          // addCard returns true if playable so check if it isn't
+          if (!dealer.getDealerHand().addCard(shoe.dealCard())) {
+            lblResults.setText("Dealer Busts!");
+            player1.setBank(player1.getBank() + player1.getBet() * 2);
+            //pause
+            try {
+              Thread.sleep(2000);
+            } catch(InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+            Bets(true);
+            return;
+          }
+        };
+        if (dealer.getDealerHand().getHandValue() > player1.getPlayerHand().getHandValue()) {
+          lblResults.setText("Dealer Wins!");
+          try {
+            Thread.sleep(2000);
+          } catch(InterruptedException ex) {
+              Thread.currentThread().interrupt();
+          }
+          Bets(true);
+          return;
+        } else if (dealer.getDealerHand().getHandValue() < player1.getPlayerHand().getHandValue()) {
+          lblResults.setText("Player Wins!");
+          player1.setBank(player1.getBank() + player1.getBet() * 2);
+        } else {
+          lblResults.setText("Player Pushes!");
+          player1.setBank(player1.getBank() + player1.getBet());
+        }
+        
+      }
+      
+      
+      /*
+       * Main game play
+       */
+      private void PlayGame() {
+        Bets(false);
+        player1.setBank(player1.getBank() - player1.getBet());
+        Bank();
+        DealCards();
+        
+        // check for blackjack
+        if (dealer.getDealerHand().getHandValue() == 21) {
+          Play(false); // stop play
+          if (player1.getPlayerHand().getHandValue() == 21) {
+            lblResults.setText("Push");
+            player1.setBank(player1.getBank() + player1.getBet());
+          } else {
+            lblResults.setText("Dealer has Blackjack!");
+          }
+          Bank();
+          Bets(true);
+          return;
+        } else if (player1.getPlayerHand().getHandValue() == 21){
+          Play(false); // stop play
+          lblResults.setText("Blackjack! Player Wins!");
+          // round up blackjacks to nearest whole dollar
+          if ((player1.getBet() % 2) > 0) {
+            player1.setBank(1 + player1.getBet() * 3 / 2);
+          } else {
+            player1.setBank(player1.getBet() * 3 / 2);
+          }
+          Bank();
+          Bets(true);
+          return;
+        }
+        /*
+         * enable button listeners
+         */
+        btnStand.addMouseListener(new MouseAdapter() {
+          @Override
+          public void mouseDown(MouseEvent e) {
+            lblResults.setText("Player Stands");
+            Play(false);
+            DealerPlay();
+          }
+        });
+        
+        btnHit.addMouseListener(new MouseAdapter() {
+          @Override
+          public void mouseDown(MouseEvent e) {
+            // add card, did we bust?
+            if (!player1.getPlayerHand().addCard(shoe.dealCard())) {
+              lblResults.setText("Player has Busted!");
+              Play(false);
+              Bets(true);
+              Bank();
+            };
+          }
+        });
+        
       }
     });
 
