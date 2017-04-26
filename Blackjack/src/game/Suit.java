@@ -36,8 +36,4 @@ public enum Suit {
       return "♥";
     }
   },
-  
-  public toString(Suit s) {
-    
-  }
 }
