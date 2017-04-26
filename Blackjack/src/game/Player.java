@@ -69,4 +69,8 @@ public class Player {
 	public long getLoan(){
 		return this.loan;
 	}
+	
+	public void resetHand(){
+		this.hand = new Hand();
+	}
 }

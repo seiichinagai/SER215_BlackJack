@@ -3,6 +3,8 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,7 +26,7 @@ public class GameFrame {
 	private Player p = new Player();
 	private Dealer d = new Dealer();
 	private Shoe s = new Shoe();
-	private Boolean shoeSet = false;
+	private Boolean shoeSet = false, blackJack = false;
 	private int dCount = 1, pCount = 0;
 	private int bet = -1, winner = 0;
 
@@ -63,7 +65,7 @@ public class GameFrame {
 			p.setBank(1000);
 			p.setName("Kvothe the Bloodless");
 		}
-
+		
 		//Basic Frame
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(255, 255, 0));
@@ -95,7 +97,7 @@ public class GameFrame {
 		JLabel lblBet = new JLabel("Bet: $");
 		lblBet.setBounds(10, 506, 46, 14);
 		frame.getContentPane().add(lblBet);
-		
+
 		JLabel lblBetAmount = new JLabel("");
 		lblBetAmount.setBounds(58, 506, 80, 14);
 		frame.getContentPane().add(lblBetAmount);
@@ -108,7 +110,7 @@ public class GameFrame {
 		lblDealerHand.setBounds(10, 11, 121, 14);
 		lblDealerHand.setVisible(false);
 		frame.getContentPane().add(lblDealerHand);
-		
+
 		JLabel lblPlayerHand = new JLabel("Player Hand:");
 		lblPlayerHand.setBounds(10, 228, 121, 14);
 		lblPlayerHand.setVisible(false);
@@ -123,7 +125,7 @@ public class GameFrame {
 		frame.getContentPane().add(numDecksTextField);
 
 		JButton btnContinue = new JButton("Continue");
-		
+
 		JLabel dTotalLbl = new JLabel("");
 		dTotalLbl.setBounds(656, 192, 118, 14);
 		dTotalLbl.setVisible(false);
@@ -137,19 +139,19 @@ public class GameFrame {
 		JLabel dCard7 = new JLabel("");
 		dCard7.setBounds(410, 32, 140, 186);
 		frame.getContentPane().add(dCard7);
-		
+
 		JLabel dCard6 = new JLabel("");
 		dCard6.setBounds(345, 32, 140, 186);
 		frame.getContentPane().add(dCard6);
-		
+
 		JLabel dCard5 = new JLabel("");
 		dCard5.setBounds(280, 32, 140, 186);
 		frame.getContentPane().add(dCard5);
-		
+
 		JLabel dCard4 = new JLabel("");
 		dCard4.setBounds(215, 32, 140, 186);
 		frame.getContentPane().add(dCard4);
-		
+
 		JLabel dCard3 = new JLabel("");
 		dCard3.setBounds(150, 32, 140, 186);
 		frame.getContentPane().add(dCard3);
@@ -157,7 +159,7 @@ public class GameFrame {
 		JLabel dCard2 = new JLabel("");
 		dCard2.setBounds(85, 32, 140, 186);
 		frame.getContentPane().add(dCard2);
-		
+
 		JLabel dCard1 = new JLabel("");
 		dCard1.setBounds(20, 32, 140, 186);
 		frame.getContentPane().add(dCard1);
@@ -172,23 +174,23 @@ public class GameFrame {
 		JLabel pCard6 = new JLabel("");
 		pCard6.setBounds(345, 249, 140, 186);
 		frame.getContentPane().add(pCard6);
-		
+
 		JLabel pCard5 = new JLabel("");
 		pCard5.setBounds(280, 249, 140, 186);
 		frame.getContentPane().add(pCard5);
-		
+
 		JLabel pCard4 = new JLabel("");
 		pCard4.setBounds(215, 249, 140, 186);
 		frame.getContentPane().add(pCard4);
-		
+
 		JLabel pCard3 = new JLabel("");
 		pCard3.setBounds(150, 249, 140, 186);
 		frame.getContentPane().add(pCard3);
-		
+
 		JLabel pCard2 = new JLabel("");
 		pCard2.setBounds(85, 249, 140, 186);
 		frame.getContentPane().add(pCard2);
-		
+
 		JLabel pCard1 = new JLabel("");
 		pCard1.setBounds(20, 249, 140, 186);
 		frame.getContentPane().add(pCard1);
@@ -196,10 +198,22 @@ public class GameFrame {
 		//pCards is an array that holds the JLabels to represent player cards.
 		JLabel[] pCards = {pCard1, pCard2, pCard3, pCard4, pCard5, pCard6, pCard7};
 
+		//Check if Loan is needed
+		if (p.getBank() == 0){
+			ErrorScreen es = new ErrorScreen();
+			bankLabel.setText(""+p.getBank());
+		}
+		
 		JButton betButton = new JButton("Confirm Bet");
 		betButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// Place Bet
+				// Check if loan is needed (for robustness)
+				if (p.getBank() == 0){
+					ErrorScreen es = new ErrorScreen();
+					bankLabel.setText(""+p.getBank());
+					return;
+				}
+				//Place Bet
 				if (validBet()){
 					betField.setVisible(false);
 					lblBetAmount.setText(""+bet);
@@ -225,7 +239,7 @@ public class GameFrame {
 
 				p.setBank(p.getBank()-bet);
 				bankLabel.setText(""+p.getBank());
-				
+
 				return true;
 			}
 		});
@@ -279,14 +293,14 @@ public class GameFrame {
 				hitButton.setVisible(false);
 				standButton.setVisible(false);
 
-				//Dealer finishes hand (if not already done)
-				while(d.dealerHits() && (p.getPlayerHand().getHandValue() < 22)){
-					Card c2 = s.dealCard();
-					d.getDealerHand().addCard(c2);
-					String dPath = "/resources/card"+c2.getSuit()+"s"+c2.getRank()+".png";
-					dCards[dCount].setIcon(new ImageIcon(getClass().getResource(dPath)));
-					dCount++;
-				}
+					//Dealer finishes hand (if not already done)
+					while(!blackJack && d.dealerHits() && (p.getPlayerHand().getHandValue() < 22)){
+						Card c2 = s.dealCard();
+						d.getDealerHand().addCard(c2);
+						String dPath = "/resources/card"+c2.getSuit()+"s"+c2.getRank()+".png";
+						dCards[dCount].setIcon(new ImageIcon(getClass().getResource(dPath)));
+						dCount++;
+					}
 
 				//Show Dealer facedown card
 				Card fd = d.getDealerHand().getCards().getFirst();
@@ -321,7 +335,7 @@ public class GameFrame {
 					System.out.println("It's a tie!");
 					winner = 3;
 				}
-				
+
 				else {
 					//Neither bust, dealer win
 					System.out.println("The dealer wins");
@@ -345,6 +359,8 @@ public class GameFrame {
 				}
 				}
 				btnContinue.setVisible(true);
+				d.resetHand();
+				p.resetHand();
 			}
 		});
 		standButton.setBounds(657, 269, 89, 23);
@@ -358,7 +374,7 @@ public class GameFrame {
 		 */
 		hitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				
 				//Add card to playerHand and update graphics
 				Card c1 = s.dealCard();
 				p.getPlayerHand().addCard(c1);
@@ -366,6 +382,10 @@ public class GameFrame {
 				pCards[pCount].setIcon(new ImageIcon(getClass().getResource(pPath)));
 				pTotalLbl.setText("Player Total: "+p.getPlayerHand().getHandValue());
 				pCount++;
+				
+				//If Player bust, end game
+				if (p.getPlayerHand().getHandValue() > 21)
+					standButton.getActionListeners()[0].actionPerformed(null);
 
 				//Add card to dealerHand according to game logic and update graphic
 				if (d.dealerHits()){
@@ -375,9 +395,9 @@ public class GameFrame {
 					dCards[dCount].setIcon(new ImageIcon(getClass().getResource(dPath)));
 					dCount++;
 				}
-
-				//If either bust, continue to standButton's ActionListener.
-				if ((p.getPlayerHand().getHandValue() > 21) || (d.getDealerHand().getHandValue() > 21))
+				
+				//If Dealer bust, end game
+				if (d.getDealerHand().getHandValue() > 21)
 					standButton.getActionListeners()[0].actionPerformed(null);
 			}
 		});
@@ -396,7 +416,7 @@ public class GameFrame {
 				d.getDealerHand().addCard(s.dealCard());
 				d.getDealerHand().addCard(s.dealCard());
 				dCard1.setIcon(cardBack);
-				
+
 				Card c = d.getDealerHand().getCards().getLast();
 				String path = "/resources/card"+c.getSuit()+"s"+c.getRank()+".png";
 				dCards[dCount].setIcon(new ImageIcon(getClass().getResource(path)));
@@ -414,16 +434,17 @@ public class GameFrame {
 				String c2Path = "/resources/card"+c2.getSuit()+"s"+c2.getRank()+".png";
 				pCards[pCount].setIcon(new ImageIcon(getClass().getResource(c2Path)));
 				pCount++;
-				
+
 				//Update and show player hand total
 				pTotalLbl.setText("Player Total: "+p.getPlayerHand().getHandValue());
 				pTotalLbl.setVisible(true);
 
 				//Check for dealer BlackJack
-				if (d.getDealerHand().getHandValue() == 21){
+				if ((d.getDealerHand().getHandValue() == 21) || p.getPlayerHand().getHandValue() == 21){
+					blackJack = true;
 					standButton.getActionListeners()[0].actionPerformed(null);
 				}
-				
+
 				dealButton.setVisible(false);
 				standButton.setVisible(true);
 				hitButton.setVisible(true);
@@ -433,7 +454,7 @@ public class GameFrame {
 		});
 		dealButton.setBounds(685, 527, 89, 23);
 		frame.getContentPane().add(dealButton);
-		
+
 		/**
 		 * btnContinue provides the ActionListener necessary
 		 * to move from the end of a game to the results screen,
@@ -441,10 +462,10 @@ public class GameFrame {
 		 */
 		btnContinue.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				//Display results screen with winner passed through
 				ResultScreen rs = new ResultScreen(winner);
-				
+
 				frame.dispose();
 			}
 		});

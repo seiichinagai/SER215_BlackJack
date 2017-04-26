@@ -55,6 +55,8 @@ public class Dealer {
 		return this.dealerHand;
 	}
 	
-	
+	public void resetHand(){
+		this.dealerHand = new Hand();
+	}
 	
 }

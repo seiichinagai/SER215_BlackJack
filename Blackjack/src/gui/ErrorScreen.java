@@ -22,7 +22,7 @@ public class ErrorScreen extends JFrame{
 	}
 	
 	public void createNewGameButton(){
-		newGameButton = new JButton("New Game");
+		newGameButton = new JButton("Give me money!");
 		
 		ActionListener listener = new NewGameListener();
 	    newGameButton.addActionListener(listener);
@@ -30,15 +30,15 @@ public class ErrorScreen extends JFrame{
 	
 	class NewGameListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			JFrame introScreen = new IntroScreen();
-			Player.setBank(0);
+			ProfileScreen.getPlayer().setBank(ProfileScreen.getPlayer().getBank()+1000);
+			ProfileScreen.getPlayer().setLoan(ProfileScreen.getPlayer().getLoan()+1000);
 			frame.dispose();
 			System.out.println("New game button clicked");
 	    }            
 	}
 	
 	public void createLabel() {
-		errorLabel = new JLabel("Insufficient funds!");
+		errorLabel = new JLabel("Insufficient funds! We'll give you a loan of $1000, don't worry.");
 	}
 	
 	public void run(){
