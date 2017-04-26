@@ -475,14 +475,36 @@ public class GameFrame {
 				// ResultScreen rs = new ResultScreen(winner);
 
 				// frame.dispose();
+			  /*
+			   * re-enable betting and prepare new hand
+			   */
 			  betField.setVisible(true);
 			  betButton.setVisible(true);
 			  btnContinue.setVisible(false);
 			  bankLabel.setText(""+p.getBank());
 			  
-			  if (d.getDealerHand().getHandValue() > p.getPlayerHand().getHandValue()) {
-			    
+			  
+			  // clear table
+			  pTotalLbl.setVisible(false);
+			  dTotalLbl.setVisible(false);
+              dealButton.setVisible(true);
+              standButton.setVisible(false);
+              hitButton.setVisible(false);
+              d.resetHand();
+              
+              pCount = 0;
+              dCount = 1;
+              
+			  // clear dealer hand
+			  for (int i = 0; i < dCards.length; i++) {
+			    dCards[i].setIcon(null);
 			  }
+			  
+			  // clear player hand
+			  for (int i = 0; i < pCards.length; i++) {
+			    pCards[i].setIcon(null);
+			  }
+
 			}
 		});
 		btnContinue.setBounds(685, 502, 89, 23);
