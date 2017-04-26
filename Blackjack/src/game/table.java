@@ -26,6 +26,8 @@ public class table {
   private static Text txtPlayerHand;
   private static Text txtDealerHand;
   private static Text txtBank;
+  private static Player player1 = new Player("Player 1");
+  private static Dealer dealer = new Dealer();
   
 
   
@@ -34,6 +36,8 @@ public class table {
    * @param args
    */
   public static void main(String[] args) {
+
+    
     try {
       table window = new table();
       window.open();
@@ -41,21 +45,9 @@ public class table {
       e.printStackTrace();
     }
     
-    // game objects
-    Player player1 = new Player("Player 1");
-    Dealer dealer = new Dealer();
-    
     /* 
      * game logic
      */
-    // minor change blackjack pays $8 to avoid < whole dollars
-    while (player1.getBank() > 0) {
-      txtBank.setText("$" + Long.toString(player1.getBank()));
-      txtBet.setText("$" + Long.toString(0));
-      
-    }
-    
-    
     
     /*
      * Game methods/classes
@@ -100,7 +92,7 @@ public class table {
     
     txtBank = new Text(grpBank, SWT.BORDER | SWT.RIGHT);
     txtBank.setEditable(false);
-    txtBank.setText("$0");
+    txtBank.setText("$" + player1.getBank());
     GridData gd_txtBank = new GridData(SWT.RIGHT, SWT.TOP, true, false, 1, 1);
     gd_txtBank.widthHint = 130;
     txtBank.setLayoutData(gd_txtBank);
@@ -132,7 +124,7 @@ public class table {
     Label lblResults = new Label(shlGroupBlackjack, SWT.NONE);
     lblResults.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
     lblResults.setEnabled(false);
-    lblResults.setText("Player Wins!");
+    lblResults.setText("");
     
     Group grpControls = new Group(shlGroupBlackjack, SWT.NONE);
     grpControls.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
@@ -169,32 +161,87 @@ public class table {
       @Override
       public void mouseDown(MouseEvent e) {
         player1.setBet(player1.getBet() - 10);
+        txtBet.setText("$" + player1.getBet());
       }
     });
     btnMinus10.setText("-$10");
     
     Button btnMinus5 = new Button(grpBetControls, SWT.NONE);
+    btnMinus5.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseDown(MouseEvent e) {
+        player1.setBet(player1.getBet() - 5);
+        txtBet.setText("$" + player1.getBet());
+      }
+    });
     btnMinus5.setText("-$5");
     
     Button btnMinus1 = new Button(grpBetControls, SWT.NONE);
+    btnMinus1.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseDown(MouseEvent e) {
+        player1.setBet(player1.getBet() - 1);
+        txtBet.setText("$" + player1.getBet());
+      }
+    });
     btnMinus1.setText("-$1");
     
     Button btnBet = new Button(grpBetControls, SWT.NONE);
-    btnBet.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent e) {
-      }
-    });
     btnBet.setText("Deal");
     
     Button btnPlus1 = new Button(grpBetControls, SWT.NONE);
+    btnPlus1.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseDown(MouseEvent e) {
+        player1.setBet(player1.getBet() + 1);
+        txtBet.setText("$" + player1.getBet());
+      }
+    });
     btnPlus1.setText("+$1");
     
     Button btnPlus5 = new Button(grpBetControls, SWT.NONE);
+    btnPlus5.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseDown(MouseEvent e) {
+        player1.setBet(player1.getBet() + 5);
+        txtBet.setText("$" + player1.getBet());
+      }
+    });
     btnPlus5.setText("+$5");
     
     Button btnPlus10 = new Button(grpBetControls, SWT.NONE);
+    btnPlus10.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseDown(MouseEvent e) {
+        player1.setBet(player1.getBet() + 10);
+        txtBet.setText("$" + player1.getBet());
+      }
+    });
     btnPlus10.setText("+$10");
+   
+    /*
+     * Start main gameplay with the deal button 
+     */
+    btnBet.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseDown(MouseEvent e) {
+        
+        // check if valid bet made
+        if (player1.getBet() <= 0) {
+          lblResults.setText("Please set a bet amount.");
+        } else if (player1.getBet() > player1.getBank()) {
+          lblResults.setText("Can't bet more than you have!");
+        } else {
+          btnMinus1.setEnabled(false);
+          btnMinus5.setEnabled(false);
+          btnMinus10.setEnabled(false);
+          btnPlus1.setEnabled(false);
+          btnPlus5.setEnabled(false);
+          btnPlus10.setEnabled(false);
+          btnBet.setEnabled(false);
+        }
+      }
+    });
 
   }
 }

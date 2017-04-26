@@ -133,6 +133,8 @@ public class Player {
   public boolean setBet(long a) {
     if (a > bank ) {
       return false; // can't set bet
+    } else if (a < 0) {
+      return false; // can't set negative bet
     } else {
       bet = a;
       return true;
