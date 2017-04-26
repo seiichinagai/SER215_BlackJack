@@ -419,6 +419,9 @@ public class GameFrame {
 		JButton dealButton = new JButton("Deal");
 		dealButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				//Check if deck needs to be reshuffled
+				s.newDeal();
 
 				//Deal starting hand to dealer
 				d.getDealerHand().addCard(s.dealCard());
