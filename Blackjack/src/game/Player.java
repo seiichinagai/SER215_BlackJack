@@ -1,7 +1,7 @@
 package game;
 
 public class Player {
-	private double bank;
+	private int bank;
 	private String name;
 	private int numberWins;
 	private int numberLosses;
@@ -32,11 +32,11 @@ public class Player {
 		return hand;
 	}
 	
-	public double getBank(){
+	public int getBank(){
 		return this.bank;
 	}
 	
-	public void setBank(double bank) {
+	public void setBank(int bank) {
 		this.bank = bank;
 	}
 	

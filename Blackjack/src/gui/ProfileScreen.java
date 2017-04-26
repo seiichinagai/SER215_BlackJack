@@ -108,8 +108,8 @@ public class ProfileScreen {
 			}
 			else
 				p.setName(this.nameField.getText());
-			long bank;
-			bank = Long.parseLong(this.bankField.getText());
+			int bank;
+			bank = Integer.parseInt(this.bankField.getText());
 			if (bank < 0)
 				throw new NumberFormatException();
 			p.setBank(bank);

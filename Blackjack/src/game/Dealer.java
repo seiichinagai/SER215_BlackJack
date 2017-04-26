@@ -19,6 +19,9 @@ public class Dealer {
 	private Hand dealerHand = new Hand();
 	//private Card faceCard;
 
+	/**
+	 * Empty Constructor for Dealer
+	 */
 	public Dealer(){
 		
 	}
@@ -51,10 +54,17 @@ public class Dealer {
 			return false;
 	}
 	
+	/**
+	 * Getter for dealerHand
+	 * @return dealerHand
+	 */
 	public Hand getDealerHand(){
 		return this.dealerHand;
 	}
 	
+	/**
+	 * Instantiates a new Hand for the Dealer
+	 */
 	public void resetHand(){
 		this.dealerHand = new Hand();
 	}

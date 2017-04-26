@@ -128,6 +128,8 @@ public class GameFrame {
         */
 		
 		JButton btnContinue = new JButton("Continue");
+		JButton dealButton = new JButton("Deal");
+		dealButton.setVisible(false);
 
 		JLabel dTotalLbl = new JLabel("");
 		dTotalLbl.setBounds(656, 192, 118, 14);
@@ -221,6 +223,7 @@ public class GameFrame {
 					betField.setVisible(false);
 					lblBetAmount.setText(""+bet);
 					betButton.setVisible(false);
+					dealButton.setVisible(true);
 				}
 				else {
 					betField.setText("Invalid Amount");
@@ -298,9 +301,6 @@ public class GameFrame {
 		standButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				hitButton.setVisible(false);
-				standButton.setVisible(false);
-
 					//Dealer finishes hand (if not already done)
 					while(!blackJack && d.dealerHits() && (p.getPlayerHand().getHandValue() < 22)){
 						Card c2 = s.dealCard();
@@ -323,7 +323,10 @@ public class GameFrame {
 				//Update Player Total
 				int pTotal = p.getPlayerHand().getHandValue();
 				pTotalLbl.setText("Player Total: "+pTotal);
-
+				
+				//Set hit/stand buttons to invisible
+				hitButton.setVisible(false);
+				standButton.setVisible(false);
 
 				//Determine Winner
 				if (dTotal > 21){
@@ -373,6 +376,7 @@ public class GameFrame {
 		});
 		standButton.setBounds(657, 269, 89, 23);
 		frame.getContentPane().add(standButton);
+		standButton.setVisible(false);
 
 
 		/**
@@ -410,16 +414,17 @@ public class GameFrame {
 			}
 		});
 		hitButton.setBounds(657, 225, 89, 23);
+		hitButton.setVisible(false);
 		frame.getContentPane().add(hitButton);
+		
 
 		/**
 		 * dealButton provides the ActionListener necessary
 		 * to start the BlackJack game.
 		 */
-		JButton dealButton = new JButton("Deal");
 		dealButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				//Check if deck needs to be reshuffled
 				s.newDeal();
 
@@ -432,6 +437,12 @@ public class GameFrame {
 				String path = "/resources/card"+c.getSuit()+"s"+c.getRank()+".png";
 				dCards[dCount].setIcon(new ImageIcon(getClass().getResource(path)));
 				dCount++;
+				
+				//Check for dealer blackjack
+				if (d.getDealerHand().getHandValue() == 21){
+					blackJack = true;
+					standButton.getActionListeners()[0].actionPerformed(null);
+				}
 
 				//Deal starting hand to player
 				Card c1 = s.dealCard();
@@ -450,14 +461,15 @@ public class GameFrame {
 				pTotalLbl.setText("Player Total: "+p.getPlayerHand().getHandValue());
 				pTotalLbl.setVisible(true);
 
-				//Check for dealer BlackJack
-				if ((d.getDealerHand().getHandValue() == 21) || p.getPlayerHand().getHandValue() == 21){
+				//Check for player BlackJack
+				if (p.getPlayerHand().getHandValue() == 21){
 					blackJack = true;
 					standButton.getActionListeners()[0].actionPerformed(null);
 				}
 
 				dealButton.setVisible(false);
 				standButton.setVisible(true);
+				btnContinue.setVisible(false);
 				hitButton.setVisible(true);
 				lblDealerHand.setVisible(true);
 				lblPlayerHand.setVisible(true);
@@ -490,7 +502,7 @@ public class GameFrame {
 			  // clear table
 			  pTotalLbl.setVisible(false);
 			  dTotalLbl.setVisible(false);
-              dealButton.setVisible(true);
+              //dealButton.setVisible(true);
               standButton.setVisible(false);
               hitButton.setVisible(false);
               d.resetHand();
