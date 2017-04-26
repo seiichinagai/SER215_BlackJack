@@ -12,8 +12,32 @@ package game;
  * Suit enumeration used throughout
  */
 public enum Suit {
-  Diamond,
-  Club,
-  Spade,
-  Heart,
+  Diamond {
+    @Override
+    public String toString() {
+      return "♦";
+    }
+  },
+  Club {
+    @Override
+    public String toString() {
+      return "♣";
+    }
+  },
+  Spade {
+    @Override
+    public String toString() {
+      return "♠";
+    }
+  },
+  Heart {
+    @Override
+    public String toString() {
+      return "♥";
+    }
+  },
+  
+  public toString(Suit s) {
+    
+  }
 }
