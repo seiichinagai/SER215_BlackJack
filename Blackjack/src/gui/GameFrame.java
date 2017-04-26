@@ -116,6 +116,8 @@ public class GameFrame {
 		lblPlayerHand.setVisible(false);
 		frame.getContentPane().add(lblPlayerHand);
 
+		// remove number of decks option for now
+		/*
 		JLabel lblNumberOfDecks = new JLabel("Number of Decks:");
 		lblNumberOfDecks.setBounds(10, 531, 121, 14);
 		frame.getContentPane().add(lblNumberOfDecks);
@@ -123,7 +125,8 @@ public class GameFrame {
 		numDecksTextField = new JTextField();
 		numDecksTextField.setBounds(123, 528, 86, 20);
 		frame.getContentPane().add(numDecksTextField);
-
+        */
+		
 		JButton btnContinue = new JButton("Continue");
 
 		JLabel dTotalLbl = new JLabel("");
@@ -245,11 +248,12 @@ public class GameFrame {
 		});
 		betButton.setBounds(219, 502, 129, 23);
 		frame.getContentPane().add(betButton);		
-
+		
 		/**
 		 * numDecksButton provides the ActionListener necessary
 		 * to set the number of decks to play with.
 		 */
+		/*
 		JButton numDecksButton = new JButton("Confirm Number");
 		numDecksButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -275,7 +279,11 @@ public class GameFrame {
 		});
 		numDecksButton.setBounds(219, 527, 129, 23);
 		frame.getContentPane().add(numDecksButton);
-
+        */
+		
+		// set number of decks
+		s.setDecks(1);
+		
 		JButton hitButton = new JButton("Hit");
 		hitButton.setVisible(false);
 
@@ -464,9 +472,17 @@ public class GameFrame {
 			public void actionPerformed(ActionEvent arg0) {
 
 				//Display results screen with winner passed through
-				ResultScreen rs = new ResultScreen(winner);
+				// ResultScreen rs = new ResultScreen(winner);
 
-				frame.dispose();
+				// frame.dispose();
+			  betField.setVisible(true);
+			  betButton.setVisible(true);
+			  btnContinue.setVisible(false);
+			  bankLabel.setText(""+p.getBank());
+			  
+			  if (d.getDealerHand().getHandValue() > p.getPlayerHand().getHandValue()) {
+			    
+			  }
 			}
 		});
 		btnContinue.setBounds(685, 502, 89, 23);
