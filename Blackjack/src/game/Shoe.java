@@ -53,6 +53,17 @@ public class Shoe {
 			Collections.shuffle(shoeCards);
 		}
 	}
+	
+	/*
+	 * new deal, check if cards need to be shuffled, if so do it
+	 * bases off of shuffleMark and numDecks
+	 */
+	public void newDeal() {
+	  if (shoeCards.size() < shuffleMark) {
+	    shoeCards.clear();
+	    this.setDecks(numDecks);
+	  }
+	}
 
 	/*
 	 * Sets the number of decks, instantiates it,
