@@ -533,13 +533,18 @@ public class GameFrame {
    */
   public void newGameDecision() {
     String message = "You have run out of money. Would you like to start a new game?";
-    JOptionPane.showMessageDialog(frame, message);
+    int choice = 0;
+    choice = JOptionPane.showConfirmDialog(frame, message,"Game Over", JOptionPane.YES_NO_OPTION);
     // JOptionPane.showInternalMessageDialog(frame, message);
     // New game, reset stats and bank
-    p.setBank(startingBank);
-    p.setTotalGames(0);
-    p.setWins(0);
-    p.setLosses(0);
+    if (choice == JOptionPane.YES_OPTION){
+      p.setBank(startingBank);
+      p.setTotalGames(0);
+      p.setWins(0);
+      p.setLosses(0);
+    } else {
+      System.exit(0);
+    }
 
   }
 }
