@@ -536,7 +536,9 @@ public class GameFrame {
 				standButton.setVisible(false);
 				hitButton.setVisible(false);
 				d.resetHand();
-
+				p.resetHand();
+				blackJack = false;
+				
 				pCount = 0;
 				dCount = 1;
 
@@ -554,7 +556,9 @@ public class GameFrame {
 				if (p.getBank() == 0){
 					newGameDecision();
 					bankLabel.setText(""+p.getBank());
-					
+					lblTGames.setText("Total Games: "+p.getTotalGames());
+					lblWGames.setText("Games Won: "+p.getWins());
+					lblLGames.setText("Games Lost: "+p.getLosses());
 				}
 
 			}
