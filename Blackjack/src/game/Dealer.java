@@ -23,9 +23,9 @@ public class Dealer {
 	 * Empty Constructor for Dealer
 	 */
 	public Dealer(){
-		
+
 	}
-	
+
 	/**
 	 * Returns true if the dealer has a BlackJack.
 	 * Returns false otherwise.
@@ -37,7 +37,7 @@ public class Dealer {
 		else
 			return false;
 	}
-	
+
 	/**
 	 * Determines if the dealer will hit or not. The dealer hits
 	 * if their hand value is less than 17 or if the dealer hand
@@ -53,7 +53,7 @@ public class Dealer {
 		else
 			return false;
 	}
-	
+
 	/**
 	 * Getter for dealerHand
 	 * @return dealerHand
@@ -61,12 +61,12 @@ public class Dealer {
 	public Hand getDealerHand(){
 		return this.dealerHand;
 	}
-	
+
 	/**
 	 * Instantiates a new Hand for the Dealer
 	 */
 	public void resetHand(){
 		this.dealerHand = new Hand();
 	}
-	
+
 }

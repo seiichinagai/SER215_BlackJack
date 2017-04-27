@@ -9,11 +9,11 @@ package game;
  */
 
 /*
- * Suit enumeration used throughout
+ * Suit enumeration used throughout the game.
  */
 public enum Suit {
-  Diamond,
-  Club,
-  Spade,
-  Heart,
+	Diamond,
+	Club,
+	Spade,
+	Heart,
 }

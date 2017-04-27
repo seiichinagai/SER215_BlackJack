@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 
 /*
  * Shoe Class
- * Used to generate the playing deck as well as appropriate methods for the deck.
+ * Used to generate the playing deck as well as appropriate methods for the deck, shoeCards.
  */
 public class Shoe {
 
@@ -25,11 +25,15 @@ public class Shoe {
 	private LinkedList<Card> shoeCards = new LinkedList<Card>();
 	private int shuffleMark;
 	private LinkedList<Card> deck = new LinkedList<Card>();
-	
+
+	/**
+	 * Default constructor for Shoe object.
+	 * Instantiates a base deck when it is called.
+	 */
 	public Shoe(){
 		createDeck();
 	}
-	
+
 	/**
 	 * Removes and returns the next card from the playing deck.
 	 * If the size is equal to shuffleMark, the deck is shuffled first.
@@ -39,7 +43,7 @@ public class Shoe {
 
 		if (shoeCards.size() == shuffleMark)
 			shuffleCards();
-		
+
 		Card toReturn = shoeCards.getFirst();
 		shoeCards = new LinkedList<Card>(shoeCards.subList(1, shoeCards.size()-1));
 		return toReturn;
@@ -53,16 +57,16 @@ public class Shoe {
 			Collections.shuffle(shoeCards);
 		}
 	}
-	
+
 	/*
-	 * new deal, check if cards need to be shuffled, if so do it
-	 * bases off of shuffleMark and numDecks
+	 * new deal, check if cards need to be shuffled, if so do it.
+	 * Bases off of shuffleMark and numDecks
 	 */
 	public void newDeal() {
-	  if (shoeCards.size() < shuffleMark) {
-	    shoeCards.clear();
-	    this.setDecks(numDecks);
-	  }
+		if (shoeCards.size() < shuffleMark) {
+			shoeCards.clear();
+			this.setDecks(numDecks);
+		}
 	}
 
 	/*
@@ -72,28 +76,29 @@ public class Shoe {
 	 * @param n number of decks.
 	 */
 	public void setDecks(int n){
+		
 		//If n is an invalid choice, show an error and return.
 		if ((n < 1) || (n > 8)){
 			JOptionPane.showInternalMessageDialog(null, "Warning","Invalid Deck Number", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		
+
 		this.numDecks = n;
 		this.shuffleMark = ((52*numDecks)/2);
-		
+
 		//Add the appropriate number of decks
 		for (int i = 0; i < numDecks; i ++){
 			shoeCards.addAll(deck);
 		}
 		shuffleCards();
 	}
-	
+
 	/**
-	 * Instantiates a full deck, unshuffled.
+	 * Instantiates a full 52-Card deck, unshuffled.
 	 * @return a full deck.
 	 */
 	private void createDeck(){
-		
+
 		for(Suit s : Suit.values()){
 			deck.add(new Card(s, "2"));
 			deck.add(new Card(s, "3"));
