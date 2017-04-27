@@ -240,12 +240,6 @@ public class GameFrame {
 		JButton betButton = new JButton("Confirm Bet");
 		betButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// Check if loan is needed (for robustness)
-				if (p.getBank() == 0){
-					//ErrorScreen es = new ErrorScreen();
-					newGameDecision();
-					bankLabel.setText(""+p.getBank());
-				}
 				//Place Bet
 				if (validBet()){
 					if (!hitButton.isEnabled()){
@@ -555,6 +549,13 @@ public class GameFrame {
 				for (int i = 0; i < pCards.length; i++) {
 					pCards[i].setIcon(null);
 				}
+				
+				//Check if player has run out of funds
+				if (p.getBank() == 0){
+					newGameDecision();
+					bankLabel.setText(""+p.getBank());
+					
+				}
 
 			}
 		});
@@ -565,7 +566,8 @@ public class GameFrame {
 	 */
 	public void newGameDecision(){
 		String message = "You have run out of money. Would you like to start a new game?";
-		JOptionPane.showInternalMessageDialog(frame, message);
+		JOptionPane.showMessageDialog(frame, message);
+		//JOptionPane.showInternalMessageDialog(frame, message);
 		//New game, reset stats and bank
 			p.setBank(startingBank);
 			p.setTotalGames(0);
