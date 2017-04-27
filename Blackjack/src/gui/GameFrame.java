@@ -19,6 +19,7 @@ import game.Card;
 import game.Dealer;
 import game.Player;
 import game.Shoe;
+import java.awt.event.FocusAdapter;
 
 public class GameFrame {
 
@@ -109,6 +110,12 @@ public class GameFrame {
     frame.getContentPane().add(lblBetAmount);
 
     betField = new JTextField();
+    betField.addFocusListener(new FocusAdapter() {
+      @Override
+      public void focusGained(FocusEvent arg0) {
+        betField.setText("");
+      }
+    });
     betField.setBounds(123, 503, 86, 20);
     frame.getContentPane().add(betField);
 
