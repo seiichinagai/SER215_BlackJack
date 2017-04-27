@@ -8,8 +8,10 @@ import java.awt.event.FocusListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import game.Card;
@@ -128,8 +130,14 @@ public class GameFrame {
         */
 		
 		JButton btnContinue = new JButton("Continue");
+		btnContinue.setBounds(685, 502, 89, 23);
+		frame.getContentPane().add(btnContinue);
+		btnContinue.setVisible(false);
+		
 		JButton dealButton = new JButton("Deal");
 		dealButton.setVisible(false);
+		JButton standButton = new JButton("Stand");
+		standButton.setVisible(false);
 
 		JLabel dTotalLbl = new JLabel("");
 		dTotalLbl.setBounds(656, 192, 118, 14);
@@ -140,6 +148,9 @@ public class GameFrame {
 		pTotalLbl.setBounds(657, 303, 118, 14);
 		pTotalLbl.setVisible(false);
 		frame.getContentPane().add(pTotalLbl);
+		
+		JButton hitButton = new JButton("Hit");
+		hitButton.setVisible(false);
 
 		JLabel dCard7 = new JLabel("");
 		dCard7.setBounds(410, 32, 140, 186);
@@ -209,17 +220,25 @@ public class GameFrame {
 			bankLabel.setText(""+p.getBank());
 		}
 		
+		/**
+		 * betButton provides the ActionListener needed
+		 * to parse bets from the player.
+		 */
 		JButton betButton = new JButton("Confirm Bet");
 		betButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// Check if loan is needed (for robustness)
 				if (p.getBank() == 0){
-					ErrorScreen es = new ErrorScreen();
+					//ErrorScreen es = new ErrorScreen();
+					newGameDecision();
 					bankLabel.setText(""+p.getBank());
-					return;
 				}
 				//Place Bet
 				if (validBet()){
+					if (!hitButton.isEnabled()){
+						hitButton.setEnabled(true);
+						standButton.setEnabled(true);
+					}
 					betField.setVisible(false);
 					lblBetAmount.setText(""+bet);
 					betButton.setVisible(false);
@@ -286,9 +305,7 @@ public class GameFrame {
 		
 		// set number of decks
 		s.setDecks(1);
-		
-		JButton hitButton = new JButton("Hit");
-		hitButton.setVisible(false);
+
 
 		/**
 		 * standButton provides the ActionListener
@@ -296,8 +313,6 @@ public class GameFrame {
 		 * Play is finished up with the dealer, and then
 		 * the game state is evaluated.
 		 */
-		JButton standButton = new JButton("Stand");
-		standButton.setVisible(false);
 		standButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -325,8 +340,8 @@ public class GameFrame {
 				pTotalLbl.setText("Player Total: "+pTotal);
 				
 				//Set hit/stand buttons to invisible
-				hitButton.setVisible(false);
-				standButton.setVisible(false);
+				hitButton.setEnabled(false);
+				standButton.setEnabled(false);
 
 				//Determine Winner
 				if (dTotal > 21){
@@ -370,6 +385,7 @@ public class GameFrame {
 				}
 				}
 				btnContinue.setVisible(true);
+				btnContinue.setEnabled(true);
 				d.resetHand();
 				p.resetHand();
 			}
@@ -377,6 +393,7 @@ public class GameFrame {
 		standButton.setBounds(657, 269, 89, 23);
 		frame.getContentPane().add(standButton);
 		standButton.setVisible(false);
+		blackJack = false;
 
 
 		/**
@@ -469,7 +486,7 @@ public class GameFrame {
 
 				dealButton.setVisible(false);
 				standButton.setVisible(true);
-				btnContinue.setVisible(false);
+				//btnContinue.setVisible(false);
 				hitButton.setVisible(true);
 				lblDealerHand.setVisible(true);
 				lblPlayerHand.setVisible(true);
@@ -522,8 +539,24 @@ public class GameFrame {
 
 			}
 		});
-		btnContinue.setBounds(685, 502, 89, 23);
-		frame.getContentPane().add(btnContinue);
-		btnContinue.setVisible(false);
+	}
+	
+	public void newGameDecision(){
+		String message = "You have run out of money. Would you like to start a new game?";
+		int decision = JOptionPane.showConfirmDialog(frame, message);
+		switch (decision){
+		case 0:{
+			frame.setVisible(false);
+			IntroScreen.main(null);
+		}
+		case 1: {
+			return;
+		}
+		default: {
+			return;
+		}
+			
+			
+		}
 	}
 }
