@@ -88,9 +88,6 @@ public class ProfileScreen {
 	class SaveListener implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			updateInfo();
-			if (IntroScreen.profileSelected){
-				frame.setVisible(false);
-			}
 		}            
 	}
 
@@ -113,7 +110,7 @@ public class ProfileScreen {
 			if (bank < 0)
 				throw new NumberFormatException();
 			p.setBank(bank);
-			IntroScreen.profileSelected = true;
+			frame.setVisible(false);
 		} catch (NumberFormatException bankError){
 			bankField.setText("Invalid Number");
 			p = null;

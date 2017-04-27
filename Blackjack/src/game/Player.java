@@ -46,7 +46,6 @@ public class Player {
 	
 	public void setWins(int numberWins){
 		this.numberWins = numberWins;
-		this.totalGames = this.numberLosses + this.numberWins;
 	}
 
 	public int getLosses() {
@@ -55,11 +54,14 @@ public class Player {
 
 	public void setLosses(int numberLosses) {
 		this.numberLosses = numberLosses;
-		this.totalGames = this.numberLosses + this.numberWins;
 	}
 
 	public int getTotalGames() {
 		return this.totalGames;
+	}
+	
+	public void setTotalGames(int n){
+		this.totalGames = n;
 	}
 	
 	public void setLoan(long amount){

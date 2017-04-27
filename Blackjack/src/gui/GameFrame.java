@@ -67,7 +67,7 @@ public class GameFrame {
 			p.setBank(1000);
 			p.setName("Kvothe the Bloodless");
 		}
-		
+
 		//Basic Frame
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(255, 255, 0));
@@ -118,6 +118,22 @@ public class GameFrame {
 		lblPlayerHand.setVisible(false);
 		frame.getContentPane().add(lblPlayerHand);
 
+		JLabel lblTGames = new JLabel("Total Games: "+p.getTotalGames());
+		lblTGames.setBounds(614, 11, 161, 14);
+		frame.getContentPane().add(lblTGames);
+
+		JLabel lblWGames = new JLabel("Games Won: "+p.getWins());
+		lblWGames.setBounds(614, 36, 161, 14);
+		frame.getContentPane().add(lblWGames);
+
+		JLabel lblLGames = new JLabel("Games Lost: "+p.getLosses());
+		lblLGames.setBounds(614, 61, 160, 14);
+		frame.getContentPane().add(lblLGames);
+		
+		JLabel lblResults = new JLabel("");
+		lblResults.setBounds(123, 481, 509, 60);
+		frame.getContentPane().add(lblResults);
+
 		// remove number of decks option for now
 		/*
 		JLabel lblNumberOfDecks = new JLabel("Number of Decks:");
@@ -127,13 +143,13 @@ public class GameFrame {
 		numDecksTextField = new JTextField();
 		numDecksTextField.setBounds(123, 528, 86, 20);
 		frame.getContentPane().add(numDecksTextField);
-        */
-		
+		 */
+
 		JButton btnContinue = new JButton("Continue");
 		btnContinue.setBounds(685, 502, 89, 23);
 		frame.getContentPane().add(btnContinue);
 		btnContinue.setVisible(false);
-		
+
 		JButton dealButton = new JButton("Deal");
 		dealButton.setVisible(false);
 		JButton standButton = new JButton("Stand");
@@ -148,7 +164,7 @@ public class GameFrame {
 		pTotalLbl.setBounds(657, 303, 118, 14);
 		pTotalLbl.setVisible(false);
 		frame.getContentPane().add(pTotalLbl);
-		
+
 		JButton hitButton = new JButton("Hit");
 		hitButton.setVisible(false);
 
@@ -214,12 +230,6 @@ public class GameFrame {
 		//pCards is an array that holds the JLabels to represent player cards.
 		JLabel[] pCards = {pCard1, pCard2, pCard3, pCard4, pCard5, pCard6, pCard7};
 
-		//Check if Loan is needed
-		if (p.getBank() == 0){
-			ErrorScreen es = new ErrorScreen();
-			bankLabel.setText(""+p.getBank());
-		}
-		
 		/**
 		 * betButton provides the ActionListener needed
 		 * to parse bets from the player.
@@ -270,7 +280,7 @@ public class GameFrame {
 		});
 		betButton.setBounds(219, 502, 129, 23);
 		frame.getContentPane().add(betButton);		
-		
+
 		/**
 		 * numDecksButton provides the ActionListener necessary
 		 * to set the number of decks to play with.
@@ -301,8 +311,8 @@ public class GameFrame {
 		});
 		numDecksButton.setBounds(219, 527, 129, 23);
 		frame.getContentPane().add(numDecksButton);
-        */
-		
+		 */
+
 		// set number of decks
 		s.setDecks(1);
 
@@ -316,14 +326,14 @@ public class GameFrame {
 		standButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-					//Dealer finishes hand (if not already done)
-					while(!blackJack && d.dealerHits() && (p.getPlayerHand().getHandValue() < 22)){
-						Card c2 = s.dealCard();
-						d.getDealerHand().addCard(c2);
-						String dPath = "/resources/card"+c2.getSuit()+"s"+c2.getRank()+".png";
-						dCards[dCount].setIcon(new ImageIcon(getClass().getResource(dPath)));
-						dCount++;
-					}
+				//Dealer finishes hand (if not already done)
+				while(!blackJack && d.dealerHits() && (p.getPlayerHand().getHandValue() < 22)){
+					Card c2 = s.dealCard();
+					d.getDealerHand().addCard(c2);
+					String dPath = "/resources/card"+c2.getSuit()+"s"+c2.getRank()+".png";
+					dCards[dCount].setIcon(new ImageIcon(getClass().getResource(dPath)));
+					dCount++;
+				}
 
 				//Show Dealer facedown card
 				Card fd = d.getDealerHand().getCards().getFirst();
@@ -338,7 +348,7 @@ public class GameFrame {
 				//Update Player Total
 				int pTotal = p.getPlayerHand().getHandValue();
 				pTotalLbl.setText("Player Total: "+pTotal);
-				
+
 				//Set hit/stand buttons to invisible
 				hitButton.setEnabled(false);
 				standButton.setEnabled(false);
@@ -367,27 +377,44 @@ public class GameFrame {
 					System.out.println("The dealer wins");
 					winner = 2;
 				}
-
+				String result = "";
+					
 				switch (winner) {
 				case 1: { //Player won
 					p.setBank(p.getBank()+(bet*2));
 					p.setWins(p.getWins()+1);
+					result = "You win! Your winnings have been added to your bank.";
 					break;
 				}
 				case 2: { //Dealer won
 					p.setLosses(p.getLosses()+1);
+					result = "You lost! The dealer keeps your money.";
 					break;
 				}
 				case 3: { //Tie
 					p.setBank(p.getBank()+bet);
-					p.setLosses(p.getLosses()+1);
+					p.setTotalGames(p.getTotalGames()+1);
+					result = "It was a tie! You receive a full refund.";
 					break;
 				}
 				}
+				
+				//Update stats and results labels
+				lblTGames.setText("Total Games: "+p.getTotalGames());
+				lblWGames.setText("Games Won: "+p.getWins());
+				lblLGames.setText("Games Lost: "+p.getLosses());
+				lblResults.setText(result);
+				
+				//Allow continue of gameplay.
 				btnContinue.setVisible(true);
 				btnContinue.setEnabled(true);
 				d.resetHand();
 				p.resetHand();
+				
+
+				
+				
+				
 			}
 		});
 		standButton.setBounds(657, 269, 89, 23);
@@ -403,7 +430,7 @@ public class GameFrame {
 		 */
 		hitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				//Add card to playerHand and update graphics
 				Card c1 = s.dealCard();
 				p.getPlayerHand().addCard(c1);
@@ -411,7 +438,7 @@ public class GameFrame {
 				pCards[pCount].setIcon(new ImageIcon(getClass().getResource(pPath)));
 				pTotalLbl.setText("Player Total: "+p.getPlayerHand().getHandValue());
 				pCount++;
-				
+
 				//If Player bust, end game
 				if (p.getPlayerHand().getHandValue() > 21)
 					standButton.getActionListeners()[0].actionPerformed(null);
@@ -424,7 +451,7 @@ public class GameFrame {
 					dCards[dCount].setIcon(new ImageIcon(getClass().getResource(dPath)));
 					dCount++;
 				}
-				
+
 				//If Dealer bust, end game
 				if (d.getDealerHand().getHandValue() > 21)
 					standButton.getActionListeners()[0].actionPerformed(null);
@@ -433,7 +460,7 @@ public class GameFrame {
 		hitButton.setBounds(657, 225, 89, 23);
 		hitButton.setVisible(false);
 		frame.getContentPane().add(hitButton);
-		
+
 
 		/**
 		 * dealButton provides the ActionListener necessary
@@ -454,7 +481,7 @@ public class GameFrame {
 				String path = "/resources/card"+c.getSuit()+"s"+c.getRank()+".png";
 				dCards[dCount].setIcon(new ImageIcon(getClass().getResource(path)));
 				dCount++;
-				
+
 				//Check for dealer blackjack
 				if (d.getDealerHand().getHandValue() == 21){
 					blackJack = true;
@@ -486,7 +513,6 @@ public class GameFrame {
 
 				dealButton.setVisible(false);
 				standButton.setVisible(true);
-				//btnContinue.setVisible(false);
 				hitButton.setVisible(true);
 				lblDealerHand.setVisible(true);
 				lblPlayerHand.setVisible(true);
@@ -502,45 +528,42 @@ public class GameFrame {
 		 */
 		btnContinue.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				/*
+				 * re-enable betting and prepare new hand
+				 */
+				lblResults.setText("");
+				betField.setVisible(true);
+				betButton.setVisible(true);
+				btnContinue.setVisible(false);
+				bankLabel.setText(""+p.getBank());
 
-				//Display results screen with winner passed through
-				// ResultScreen rs = new ResultScreen(winner);
+				// clear table
+				pTotalLbl.setVisible(false);
+				dTotalLbl.setVisible(false);
+				standButton.setVisible(false);
+				hitButton.setVisible(false);
+				d.resetHand();
 
-				// frame.dispose();
-			  /*
-			   * re-enable betting and prepare new hand
-			   */
-			  betField.setVisible(true);
-			  betButton.setVisible(true);
-			  btnContinue.setVisible(false);
-			  bankLabel.setText(""+p.getBank());
-			  
-			  
-			  // clear table
-			  pTotalLbl.setVisible(false);
-			  dTotalLbl.setVisible(false);
-              //dealButton.setVisible(true);
-              standButton.setVisible(false);
-              hitButton.setVisible(false);
-              d.resetHand();
-              
-              pCount = 0;
-              dCount = 1;
-              
-			  // clear dealer hand
-			  for (int i = 0; i < dCards.length; i++) {
-			    dCards[i].setIcon(null);
-			  }
-			  
-			  // clear player hand
-			  for (int i = 0; i < pCards.length; i++) {
-			    pCards[i].setIcon(null);
-			  }
+				pCount = 0;
+				dCount = 1;
+
+				// clear dealer hand
+				for (int i = 0; i < dCards.length; i++) {
+					dCards[i].setIcon(null);
+				}
+
+				// clear player hand
+				for (int i = 0; i < pCards.length; i++) {
+					pCards[i].setIcon(null);
+				}
 
 			}
 		});
 	}
-	
+
+	/**
+	 * This method allows the user to choose to start a new game upon depletion of bank funds.
+	 */
 	public void newGameDecision(){
 		String message = "You have run out of money. Would you like to start a new game?";
 		int decision = JOptionPane.showConfirmDialog(frame, message);
@@ -554,9 +577,7 @@ public class GameFrame {
 		}
 		default: {
 			return;
-		}
-			
-			
+		}	
 		}
 	}
 }

@@ -10,8 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class IntroScreen {
-	
-	static boolean profileSelected = false;
 
 	private JFrame frmBlackjackintroscreen;
 
@@ -75,18 +73,15 @@ public class IntroScreen {
 
 		/**
 		 * startButton provides an ActionListener so that when
-		 * it is pressed, GameFrame is called, and the current
-		 * frame is disposed of, provided that a profile has
-		 * been chosen.
+		 * it is pressed, GameFrame is called with either the
+		 * chosen Player profile or a default one.
 		 */
 		JButton startButton = new JButton("Start");
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Add something to the effect of:
-				if (profileSelected){
+				
 					GameFrame.main(null);
 					frmBlackjackintroscreen.dispose();
-				}
 			}
 		});
 		startButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
