@@ -13,6 +13,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import game.Player;
+import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class ProfileScreen {
 
@@ -57,6 +59,7 @@ public class ProfileScreen {
 
 		final int FIELD_WIDTH = 10;
 		nameField = new JTextField(FIELD_WIDTH);
+		nameField.setFont(new Font("Tahoma", Font.PLAIN, 32));
 		nameField.setText("");
 		nameField.setEditable(true);
 	}
@@ -66,7 +69,10 @@ public class ProfileScreen {
 
 		final int FIELD_WIDTH = 10;
 		bankField = new JTextField(FIELD_WIDTH);
-		bankField.setEditable(true);
+		bankField.setHorizontalAlignment(SwingConstants.CENTER);
+		bankField.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		bankField.setEditable(false);
+		bankField.setText(String.valueOf(1000));
 	}
 	
 //	public void createStatsArea(){
@@ -137,7 +143,7 @@ public class ProfileScreen {
 
 		frame = new JFrame("Player Profile");
 		frame.setBounds(100, 100, 450, 300);
-		frame.add(panel);
+		frame.getContentPane().add(panel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		frame.setTitle("BlackJack Profile Screen");

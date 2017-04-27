@@ -434,20 +434,7 @@ public class GameFrame {
 				//If Player bust, end game
 				if (p.getPlayerHand().getHandValue() > 21)
 					standButton.getActionListeners()[0].actionPerformed(null);
-				else {
-					//Add card to dealerHand according to game logic and update graphic
-					if (d.dealerHits()){
-						Card c2 = s.dealCard();
-						d.getDealerHand().addCard(c2);
-						String dPath = "/resources/card"+c2.getSuit()+"s"+c2.getRank()+".png";
-						dCards[dCount].setIcon(new ImageIcon(getClass().getResource(dPath)));
-						dCount++;
-					}
 
-					//If Dealer bust, end game
-					if (d.getDealerHand().getHandValue() > 21)
-						standButton.getActionListeners()[0].actionPerformed(null);
-				}
 			}
 		});
 		hitButton.setBounds(657, 225, 89, 23);
