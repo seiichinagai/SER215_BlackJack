@@ -21,9 +21,9 @@ public class ProfileScreen {
 	private JLabel nameLabel;
 	private JTextField bankField;
 	private JLabel bankLabel;
-	private JTextArea playerStats;
 	private JButton saveButton;
 	private static Player p = null;
+	public static int startingBank = 0;
 
 	/**
 	 * Launch the application.
@@ -110,6 +110,7 @@ public class ProfileScreen {
 			if (bank < 0)
 				throw new NumberFormatException();
 			p.setBank(bank);
+			startingBank = bank;
 			frame.setVisible(false);
 		} catch (NumberFormatException bankError){
 			bankField.setText("Invalid Number");
