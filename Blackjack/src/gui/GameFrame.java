@@ -33,6 +33,11 @@ import game.Shoe;
  * It provides the graphical window that the user plays the game with,
  * as well as contains most of the game logic. It is essentially the driver
  * of the BlackJack game that utilizes most of the other classes.
+ * 
+ * Note: This class makes use of content that we did not create. All such content
+ * is located in the resources package, along with 'license.txt', which provides
+ * the terms of the content's use. Conversely, the license can also be found at:
+ * http://creativecommons.org/publicdomain/zero/1.0/
  */
 public class GameFrame {
 
