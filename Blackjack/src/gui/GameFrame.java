@@ -444,6 +444,7 @@ public class GameFrame {
 				// Allow continue of gameplay.
 				btnContinue.setVisible(true);
 				btnContinue.setEnabled(true);
+				dealButton.setVisible(false);
 				d.resetHand();
 				p.resetHand();
 
